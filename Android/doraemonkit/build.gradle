@@ -40,7 +40,7 @@ dependencies {
     //implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
     testImplementation rootProject.ext.dependencies["junit"]
-    implementation rootProject.ext.dependencies["constraintLayout"]
+//    implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["appcompat-v7"]
     implementation rootProject.ext.dependencies["cardview-v7"]
     implementation(rootProject.ext.dependencies["recyclerview-v7"]) {
@@ -68,18 +68,7 @@ dependencies {
     implementation rootProject.ext.dependencies["room_runtime"]
     annotationProcessor rootProject.ext.dependencies["room_compile"]
 
-    //三大图片框架
-    compileOnly rootProject.ext.dependencies["glide"]
-    compileOnly rootProject.ext.dependencies["picasso"]
-    compileOnly rootProject.ext.dependencies["fresco"]
-    compileOnly rootProject.ext.dependencies["image-loader"]
 
-    //高德地图定位
-    compileOnly rootProject.ext.dependencies["amap_location"]
-    //腾讯地图定位
-    compileOnly rootProject.ext.dependencies["tencent_location"]
-    //百度地图定位
-    compileOnly files('libs/BaiduLBS_Android.jar')
     compileOnly files('libs/okhttp-2.1.0.jar')
 
 

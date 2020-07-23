@@ -10,7 +10,7 @@
         android:layout_margin="8dp"
         android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:background="@color/dk_color_FFFFFF">
@@ -22,10 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:textSize="@dimen/dk_font_size_22"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="@dimen/dk_font_size_22"/>
 
             <TextView
                 android:id="@+id/total_tips"
@@ -35,10 +32,7 @@
                 android:layout_marginTop="6dp"
                 android:gravity="center"
                 android:text="@string/dk_network_summary_total_number_time_tips"
-                android:textSize="10sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/total_sec" />
+                android:textSize="10sp"/>
 
             <TextView
                 android:id="@+id/total_number"
@@ -47,12 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:textSize="@dimen/dk_font_size_22"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/total_upload"
-                app:layout_constraintTop_toBottomOf="@id/total_tips"
-                app:layout_constraintWidth_percent="0.33" />
+                android:textSize="@dimen/dk_font_size_22" />
 
             <TextView
                 android:id="@+id/total_upload"
@@ -60,11 +49,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="@dimen/dk_font_size_22"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintLeft_toRightOf="@id/total_number"
-                app:layout_constraintTop_toTopOf="@id/total_number"
-                app:layout_constraintWidth_percent="0.33" />
+                android:textSize="@dimen/dk_font_size_22"/>
 
             <TextView
                 android:id="@+id/total_down"
@@ -72,12 +57,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="@dimen/dk_font_size_22"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintLeft_toRightOf="@id/total_upload"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/total_number"
-                app:layout_constraintWidth_percent="0.33" />
+                android:textSize="@dimen/dk_font_size_22" />
 
             <TextView
                 style="@style/DK.Text.Gray"
@@ -89,10 +69,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/dk_network_summary_data_upload"
-                android:textSize="10sp"
-                app:layout_constraintLeft_toLeftOf="@id/total_upload"
-                app:layout_constraintTop_toBottomOf="@id/total_upload"
-                app:layout_constraintWidth_percent="0.33" />
+                android:textSize="10sp" />
 
 
             <TextView
@@ -105,10 +82,7 @@
                 android:layout_marginTop="6dp"
                 android:gravity="center"
                 android:text="@string/dk_network_summary_total_number"
-                android:textSize="10sp"
-                app:layout_constraintLeft_toLeftOf="@id/total_number"
-                app:layout_constraintTop_toBottomOf="@id/total_number"
-                app:layout_constraintWidth_percent="0.33" />
+                android:textSize="10sp"/>
 
 
             <TextView
@@ -119,11 +93,8 @@
                 android:layout_marginTop="6dp"
                 android:gravity="center"
                 android:text="@string/dk_network_summary_data_down"
-                android:textSize="10sp"
-                app:layout_constraintLeft_toLeftOf="@id/total_down"
-                app:layout_constraintTop_toBottomOf="@id/total_down"
-                app:layout_constraintWidth_percent="0.33" />
-        </android.support.constraint.ConstraintLayout>
+                android:textSize="10sp"/>
+        </FrameLayout>
 
 
         <LinearLayout

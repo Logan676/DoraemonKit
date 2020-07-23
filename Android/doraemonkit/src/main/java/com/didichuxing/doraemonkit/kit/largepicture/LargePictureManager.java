@@ -11,7 +11,6 @@ import com.blankj.utilcode.util.ImageUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
-import com.facebook.imageutils.BitmapUtil;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
