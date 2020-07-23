@@ -29,12 +29,10 @@ public class App extends Application {
         super.onCreate();
         List<AbstractKit> kits = new ArrayList<>();
         kits.add(new DemoKit());
-        //测试环境:a49842eeebeb1989b3f9565eb12c276b
-        //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
         DoraemonKit.disableUpload();
         //是否显示入口icon
         //DoraemonKit.setAwaysShowMainIcon(false);
-        DoraemonKit.install(this, kits, "749a0600b5e48dd77cf8ee680be7b1b7");
+        DoraemonKit.install(this, kits, "71d3d5ab5765e78c664fc3ac9cf33b34");
         ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
                 .setDiskCacheEnabled(false)
                 .build();
