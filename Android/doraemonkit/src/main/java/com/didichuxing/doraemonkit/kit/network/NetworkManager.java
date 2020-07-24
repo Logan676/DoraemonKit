@@ -84,7 +84,7 @@ public class NetworkManager {
     }
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    private AtomicBoolean mIsActive = new AtomicBoolean(false);
+    private AtomicBoolean mIsActive = new AtomicBoolean(true);
 
     /**
      * 这个数据结构要求有序（方便移除最旧的数据），线程安全（网络请求是在子线程内执行，会在子线程内对数据进行查询插入删除操作），方便查找

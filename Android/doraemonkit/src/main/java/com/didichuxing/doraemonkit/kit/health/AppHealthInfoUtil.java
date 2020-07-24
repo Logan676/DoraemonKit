@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.kit.health;
 
+import android.util.Log;
+
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.GsonUtils;
@@ -17,6 +19,7 @@ import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -290,8 +293,11 @@ public class AppHealthInfoUtil {
         }
         //线上地址：https://www.dokit.cn/healthCheck/addCheckData
         //测试环境地址:http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData
+
+        String s = GsonUtils.toJson(mAppHealthInfo);
+        Log.d("上传健康体检数据到服务器", s);
         DokitOkGo.<String>post(NetworkManager.APP_HEALTH_URL)
-                .upJson(GsonUtils.toJson(mAppHealthInfo))
+                .upJson(s)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -384,6 +390,8 @@ public class AppHealthInfoUtil {
         //crash 开关
         CrashCaptureConfig.setCrashCaptureOpen(DoraemonKit.APPLICATION, false);
         CrashCaptureManager.getInstance().stop();
+
+        // TODO: 2020/7/23 持久化 数据
 
     }
 

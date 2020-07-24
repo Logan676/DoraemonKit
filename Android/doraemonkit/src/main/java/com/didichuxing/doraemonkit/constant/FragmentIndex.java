@@ -53,4 +53,9 @@ public interface FragmentIndex {
      * 健康体检
      */
     int FRAGMENT_HEALTH = 27;
+
+    /**
+     * 健康体检结果
+     */
+    int FRAGMENT_HEALTH_RESULT = 28;
 }

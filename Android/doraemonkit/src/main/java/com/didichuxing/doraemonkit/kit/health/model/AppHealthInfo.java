@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.health.model;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  * 修订历史：
  * ================================================
  */
-public class AppHealthInfo {
+public class AppHealthInfo implements Serializable {
     /**
      * baseInfo : {"caseName":"iOS5.0版本性能测试","testPerson":"易小翔","platfom":"iOS","time":"2019-12-12 : 11:12:30","phoneMode":"iphone6S","systemVersion":"13","appNmae":"Dokit","appVersion":"1.0.0","dokitVersion":"2.0.0"}
      * data : {"appStart":{"costTime":"3200","costDetail":"代码耗时字符串","loadFunc":[{"className":"ClassA","costTime":"15"},{"className":"ClassB","costTime":"30"}]},"cpu":[{"page":"HomeViewController","values":[{"time":"时间戳","value":"0.5"},{"time":"时间戳","value":"0.8"}]},{"page":"MapViewController","values":[{"time":"时间戳","value":"0.5"},{"time":"时间戳","value":"0.8"}]}],"memory":[{"page":"HomeViewController","values":[{"time":"时间戳","value":"80"},{"time":"时间戳","value":"81"}]},{"page":"MapViewController","values":[{"time":"时间戳","value":"90"},{"time":"时间戳","value":"91"}]}],"fps":[{"page":"HomeViewController","values":[{"time":"时间戳","value":"60"},{"time":"时间戳","value":"59"}]},{"page":"MapViewController","values":[{"time":"时间戳","value":"50"},{"time":"时间戳","value":"60"}]}],"network":[{"page":"HomeViewController","values":[{"time":"时间戳","url":"http://www.baidu.com","up":"100","down":"200","code":"200","method":"Get"},{"time":"时间戳","url":"http://www.taobao.com","up":"100","down":"200","code":"200","method":"Post"}]},{"page":"MapViewController","values":[{"time":"时间戳","url":"http://www.baidu.com","up":"100","down":"200","code":"200","method":"Get"},{"time":"时间戳","url":"http://www.taobao.com","up":"100","down":"200","code":"200","method":"Post"}]}],"block":[{"page":"HomeViewController","blockTime":"4.2","detail":"卡顿堆栈"},{"page":"MapViewController","blockTime":"5.2","detail":"卡顿堆栈"}],"subThreadUI":[{"page":"HomeViewController","detail":"代码堆栈"},{"page":"MapViewController","detail":"代码堆栈"}],"uiLevel":[{"page":"HomeViewController","level":"10","detail":"层级引用链"},{"page":"MapViewController","level":"10","detail":"层级引用链"}],"leak":[{"page":"HomeViewController","detail":"内存泄漏详情"},{"page":"MapViewController","detail":"内存泄漏详情"}],"pageLoad":[{"page":"HomeViewController","time":"120"},{"page":"MapViewController","time":"120"}],"bigFile":[{"fileName":"fileName1","fileSize":"30M","filePath":"/data/json/fileName1"}]}
