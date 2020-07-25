@@ -1,15 +1,19 @@
 package com.didichuxing.doraemonkit.kit.health;
 
+import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.CrashCaptureConfig;
+import com.didichuxing.doraemonkit.constant.CachesKey;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
@@ -19,6 +23,7 @@ import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
+import com.didichuxing.doraemonkit.util.CacheUtils;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;
@@ -39,6 +44,10 @@ public class AppHealthInfoUtil {
     private static String TAG = "AppHealthInfoUtil";
 
     private AppHealthInfo mAppHealthInfo = new AppHealthInfo();
+
+    public AppHealthInfo getAppHealthInfo() {
+        return mAppHealthInfo;
+    }
 
     /**
      * 静态内部类单例
@@ -287,12 +296,14 @@ public class AppHealthInfoUtil {
     /**
      * 上传健康体检数据到服务器
      */
-    public void post(final UploadAppHealthCallback uploadAppHealthCallBack) {
+    public void post(final Context context, final UploadAppHealthCallback uploadAppHealthCallBack) {
         if (mAppHealthInfo == null) {
             return;
         }
         //线上地址：https://www.dokit.cn/healthCheck/addCheckData
         //测试环境地址:http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData
+
+        saveToLocal(context);
 
         String s = GsonUtils.toJson(mAppHealthInfo);
         Log.d("上传健康体检数据到服务器", s);
@@ -315,6 +326,65 @@ public class AppHealthInfoUtil {
                     }
                 });
 
+    }
+
+    public void saveToLocal(final Context context) {
+        ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Object>() {
+            @Override
+            public Object doInBackground() throws Throwable {
+                LogHelper.d("saveToLocal", "doInBackground: \n" + mAppHealthInfo.toString());
+                CacheUtils.saveObject(context, CachesKey.NETWORK_TRAFFIC, mAppHealthInfo);
+                return null;
+            }
+
+            @Override
+            public void onSuccess(Object result) {
+                LogHelper.d("saveToLocal", "onSuccess");
+
+            }
+        });
+    }
+
+    private void readFromLocal(final Context context) {
+        ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<AppHealthInfo>() {
+            @Override
+            public AppHealthInfo doInBackground() throws Throwable {
+                LogHelper.d("readFromLocal", "doInBackground: \n" + mAppHealthInfo.toString());
+                return (AppHealthInfo) CacheUtils.readObject(context, CachesKey.NETWORK_TRAFFIC);
+            }
+
+            @Override
+            public void onSuccess(AppHealthInfo result) {
+                LogHelper.d("readFromLocal", "onSuccess");
+                if (result != null) {
+                    if (mAppHealthInfo == null) {
+                        mAppHealthInfo = result;
+                        return;
+                    }
+
+                    if (mAppHealthInfo.getBaseInfo() == null) {
+                        mAppHealthInfo.setBaseInfo(result.getBaseInfo());
+                    } else {
+                        if (result.getBaseInfo() != null) {
+                            mAppHealthInfo.setBaseInfo(mAppHealthInfo.getBaseInfo());
+                        }
+                    }
+
+                    if (mAppHealthInfo.getData() == null) {
+                        mAppHealthInfo.setData(result.getData());
+                    } else {
+                        if (result.getData() != null) {
+                            AppHealthInfo.DataBean data = mAppHealthInfo.getData();
+                            if (data.getNetwork() == null) {
+                                data.setNetwork(result.getData().getNetwork());
+                            } else if (getData().getNetwork() != null) {
+                                data.getNetwork().addAll(getData().getNetwork());
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -355,8 +425,12 @@ public class AppHealthInfoUtil {
 
     /**
      * 开启健康体检监控
+     *
+     * @param app
      */
-    public void start() {
+    public void start(Application app) {
+        readFromLocal(app);
+
         PerformanceDataManager.getInstance().init();
         //帧率
         PerformanceDataManager.getInstance().startMonitorFrameInfo();

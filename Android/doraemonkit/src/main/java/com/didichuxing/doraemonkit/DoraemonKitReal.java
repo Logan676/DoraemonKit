@@ -286,7 +286,7 @@ class DoraemonKitReal {
         checkLargeImgIsOpen();
         registerNetworkStatusChangedListener();
         //initAidlBridge(app);
-        startAppHealth();
+        startAppHealth(app);
         checkGPSMock();
         //上传埋点
         DataPickManager.getInstance().postData();
@@ -371,8 +371,9 @@ class DoraemonKitReal {
 
     /**
      * 开启健康体检
+     * @param app
      */
-    private static void startAppHealth() {
+    private static void startAppHealth(Application app) {
         if (!DokitConstant.APP_HEALTH_RUNNING) {
             return;
         }
@@ -382,7 +383,7 @@ class DoraemonKitReal {
             return;
         }
 
-        AppHealthInfoUtil.getInstance().start();
+        AppHealthInfoUtil.getInstance().start(app);
         //开启大文件检测
         startBigFileInspect();
     }

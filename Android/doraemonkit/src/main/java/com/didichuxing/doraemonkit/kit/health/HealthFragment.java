@@ -41,6 +41,7 @@ public class HealthFragment extends BaseFragment {
 
     private void initView() {
         mFragments.clear();
+        mFragments.add(new HealthFragmentChildNetWorkTraffic());
         mFragments.add(new HealthFragmentChild0());
         mFragments.add(new HealthFragmentChild1());
         mHomeTitleBar = findViewById(R.id.title_bar);

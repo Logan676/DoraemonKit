@@ -18,11 +18,11 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
-import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
+import com.didichuxing.doraemonkit.okgo.utils.HttpUtils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -44,6 +44,12 @@ public class PerformanceDataManager {
      * 信息采集时间 内存和cpu
      */
     private static final int NORMAL_SAMPLING_TIME = 500;
+
+    /**
+     * 缓存监控数据
+     */
+    private static final int NORMAL_SAVE_LOCAL_TIME = 10 * 1000; // 10秒
+
     /**
      * fps 采集时间
      */
@@ -86,6 +92,7 @@ public class PerformanceDataManager {
     private static final int MSG_CPU = 1;
     private static final int MSG_MEMORY = 2;
     private static final int MSG_NET_FLOW = 4;
+    private static final int MSG_SAVE_LOCAL = 5;
     private Handler mMainHandler = new Handler(Looper.getMainLooper());
     private FrameRateRunnable mRateRunnable = new FrameRateRunnable();
 
@@ -210,14 +217,19 @@ public class PerformanceDataManager {
                         mLastUpBytes = NetworkManager.get().getTotalRequestSize() - mUpBytes;
                         mLastDownBytes = NetworkManager.get().getTotalResponseSize() - mDownBytes;
                         mNormalHandler.sendEmptyMessageDelayed(MSG_NET_FLOW, NORMAL_SAMPLING_TIME);
+                    } else if (msg.what == MSG_SAVE_LOCAL) {
+                        saveToLocal();
+                        mNormalHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_SAVE_LOCAL_TIME);
                     }
-//                    else if (msg.what == MSG_SAVE_LOCAL) {
-//                        saveToLocal();
-//                        mNormalHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_SAMPLING_TIME);
-//                    }
                 }
             };
         }
+
+        mNormalHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_SAVE_LOCAL_TIME);
+    }
+
+    private void saveToLocal() {
+        AppHealthInfoUtil.getInstance().saveToLocal(mContext);
     }
 
     private String getFilePath(Context context) {
@@ -267,14 +279,10 @@ public class PerformanceDataManager {
     }
 
 
-
     public void stopMonitorCPUInfo() {
         PerformanceMemoryInfoConfig.CPU_STATUS = false;
         mNormalHandler.removeMessages(MSG_CPU);
     }
-
-
-
 
 
     public void startMonitorMemoryInfo() {

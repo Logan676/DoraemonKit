@@ -1,6 +1,9 @@
 package com.didichuxing.doraemonkit.kit.health;
 
+import android.content.Context;
+import android.os.SystemClock;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -10,6 +13,9 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.dialog.DialogListener;
 import com.didichuxing.doraemonkit.ui.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.util.LogHelper;
+
+import static android.text.format.DateUtils.FORMAT_SHOW_DATE;
+import static android.text.format.DateUtils.FORMAT_SHOW_TIME;
 
 /**
  * Created by jint on 2019/4/12
@@ -39,6 +45,11 @@ public class UserInfoDialogProvider extends DialogProvider<Object> {
         mClose = view.findViewById(R.id.close);
         mCaseName = view.findViewById(R.id.edit_case_name);
         mUserName = view.findViewById(R.id.edit_user_name);
+
+        String dateTime = DateUtils.formatDateTime(getContext(), System.currentTimeMillis(), FORMAT_SHOW_TIME | FORMAT_SHOW_DATE);
+        String caseName = "性能监控 "+ dateTime;
+        mCaseName.setText(caseName);
+        mUserName.setText("测试");
     }
 
     @Override
@@ -64,7 +75,7 @@ public class UserInfoDialogProvider extends DialogProvider<Object> {
     /**
      * 上传健康体检数据
      */
-    boolean uploadAppHealthInfo(UploadAppHealthCallback uploadAppHealthCallBack) {
+    boolean uploadAppHealthInfo(Context context, UploadAppHealthCallback uploadAppHealthCallBack) {
         if (!userInfoCheck()) {
             ToastUtils.showShort("请填写测试用例和测试人");
             return false;
@@ -74,7 +85,7 @@ public class UserInfoDialogProvider extends DialogProvider<Object> {
 
         AppHealthInfoUtil.getInstance().setBaseInfo(caseName, userName);
         //上传数据
-        AppHealthInfoUtil.getInstance().post(uploadAppHealthCallBack);
+        AppHealthInfoUtil.getInstance().post(context, uploadAppHealthCallBack);
         return true;
     }
 

@@ -68,7 +68,7 @@ public class HealthFragmentChild0 extends BaseFragment {
 
                 if (mUserInfoDialogProvider != null) {
                     //上传健康体检数据
-                    boolean isCheck = mUserInfoDialogProvider.uploadAppHealthInfo(new UploadAppHealthCallback() {
+                    boolean isCheck = mUserInfoDialogProvider.uploadAppHealthInfo(getActivity(), new UploadAppHealthCallback() {
                         @Override
                         public void onSuccess(Response<String> response) {
                             LogHelper.i(TAG, "上传成功===>" + response.body());

@@ -40,7 +40,7 @@ dependencies {
     //implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
     testImplementation rootProject.ext.dependencies["junit"]
-//    implementation rootProject.ext.dependencies["constraintLayout"]
+    implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["appcompat-v7"]
     implementation rootProject.ext.dependencies["cardview-v7"]
     implementation(rootProject.ext.dependencies["recyclerview-v7"]) {
