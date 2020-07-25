@@ -1,27 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dk_color_F4F5F6">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dk_dp_20"
-        android:layout_marginTop="@dimen/dk_dp_20"
-        android:layout_marginBottom="@dimen/dk_dp_20"
-        android:text="网络监测"
-        android:textSize="16dp" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/traffic_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/tabMode"
-        android:layout_below="@+id/title"
-        android:background="@color/dk_color_F4F5F6" />
-
+    <View
+        style="@style/DK.Divider"
+        android:layout_alignTop="@id/tabMode" />
 
     <LinearLayout
         android:id="@+id/tabMode"
@@ -53,7 +38,12 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <View
-        style="@style/DK.Divider"
-        android:layout_alignTop="@id/tabMode" />
-</RelativeLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/traffic_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tabMode"
+        android:layout_below="@+id/title"
+        android:background="@color/dk_color_F4F5F6" />
+
+</LinearLayout>

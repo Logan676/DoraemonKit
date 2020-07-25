@@ -5,9 +5,21 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.blockmonitor.BlockListFragment;
+import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
+import com.didichuxing.doraemonkit.kit.largepicture.LargeImageListFragment;
+import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment;
+import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostFragment;
+import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMainPagerFragment;
+import com.didichuxing.doraemonkit.kit.parameter.cpu.CpuMainPageFragment;
+import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfoFragment;
+import com.didichuxing.doraemonkit.kit.parameter.ram.RamMainPageFragment;
+import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterFragment;
+import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterListFragment;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.view.verticalviewpager.VerticalViewPager;
@@ -42,6 +54,14 @@ public class HealthFragment extends BaseFragment {
     private void initView() {
         mFragments.clear();
         mFragments.add(new HealthFragmentChildNetWorkTraffic());
+//        mFragments.add(new BlockListFragment());
+//        mFragments.add(new NetWorkMainPagerFragment());
+//        mFragments.add(new FrameInfoFragment());
+//        mFragments.add(new CpuMainPageFragment());
+//        mFragments.add(new RamMainPageFragment());
+//        mFragments.add(new TimeCounterListFragment());
+//        mFragments.add(new LargeImageListFragment());
+//        mFragments.add(new MethodCostFragment());
         mFragments.add(new HealthFragmentChild0());
         mFragments.add(new HealthFragmentChild1());
         mHomeTitleBar = findViewById(R.id.title_bar);
@@ -62,8 +82,69 @@ public class HealthFragment extends BaseFragment {
             public int getCount() {
                 return mFragments.size();
             }
+
+            @Nullable
+            @Override
+            public CharSequence getPageTitle(int position) {
+                String title = "";
+                switch (position) {
+                    case 0:
+                        title = "网络流量";
+                        break;
+                    case 1:
+                        title = getString(R.string.dk_kit_block_monitor_list);
+                        break;
+                    case 2:
+                        title = getString(R.string.dk_net_monitor_title_summary);
+                        break;
+                    case 3:
+                        title = getString(R.string.dk_kit_frame_info_desc);
+                        break;
+                    case 4:
+                        title = getString(R.string.dk_kit_frame_info_desc);
+                        break;
+                    case 5:
+                        title = getString(R.string.dk_kit_frame_info_desc);
+                        break;
+                    case 6:
+                        title = getString(R.string.dk_kit_frame_info_desc);
+                        break;
+                    case 7:
+                        title = getString(R.string.dk_kit_frame_info_desc);
+                        break;
+                    case 8:
+                        title = getString(R.string.dk_kit_frame_info_desc);
+                        break;
+                    case 9:
+                        title = getString(R.string.dk_kit_frame_info_desc);
+                        break;
+                    default:
+                        title = "开发中...";
+                        break;
+                }
+                return title;
+            }
         };
         mVerticalViewPager.setAdapter(mFragmentPagerAdapter);
+
+
+        mVerticalViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                CharSequence pageTitle = mFragmentPagerAdapter.getPageTitle(position);
+                mHomeTitleBar.setTitle(String.valueOf(pageTitle));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     /**

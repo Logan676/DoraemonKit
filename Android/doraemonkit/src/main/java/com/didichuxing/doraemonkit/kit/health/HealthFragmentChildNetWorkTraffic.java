@@ -104,19 +104,4 @@ public class HealthFragmentChildNetWorkTraffic extends BaseFragment implements V
         }
     }
 
-    private void analyzeTraffic() {
-
-    }
-
-    private void showTrafficRankTable() {
-
-    }
-
-    private void showTrafficSummaryByClassTable() {
-
-    }
-
-    private void showTrafficChart() {
-
-    }
 }
