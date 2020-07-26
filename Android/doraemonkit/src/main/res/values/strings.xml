@@ -9,6 +9,7 @@
     <string name="dk_category_platform">平台工具</string>
     <string name="dk_kit_network_mock">数据Mock</string>
     <string name="dk_kit_health">健康体检</string>
+    <string name="dk_kit_health_result">健康体检结果汇总</string>
     <string name="dk_category_weex">WEEX</string>
 
     <string name="dk_kit_ui_performance">UI渲染性能</string>
@@ -77,6 +78,15 @@
     <string name="dk_kit_exit">退出 Doraemonkit</string>
     <string name="dk_kit_version">当前版本：V%s</string>
     <string name="dk_kit_layout_border">布局边框</string>
+
+    <string name="dk_kit_health_start">启动</string>
+    <string name="dk_kit_health_frame_block">帧率/卡顿</string>
+    <string name="dk_kit_health_cpu">CPU</string>
+    <string name="dk_kit_health_net">网络</string>
+    <string name="dk_kit_health_memory">内存/内存泄露</string>
+    <string name="dk_kit_health_start_activity">页面打开时长</string>
+    <string name="dk_kit_health_large_file">大文件</string>
+
 
     <string name="dk_sysinfo_device_info">手机信息</string>
     <string name="dk_sysinfo_app_info">App信息</string>

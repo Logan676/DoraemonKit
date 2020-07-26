@@ -35,6 +35,8 @@ import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.kit.gpsmock.ServiceHookManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.HealthKit;
+import com.didichuxing.doraemonkit.kit.health.HealthMethodTimeKit;
+import com.didichuxing.doraemonkit.kit.health.HealthNetworkKit;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit;
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit;
@@ -167,6 +169,9 @@ class DoraemonKitReal {
         List<AbstractKit> tool = new ArrayList<>();
         //性能监控
         List<AbstractKit> performance = new ArrayList<>();
+        //健康体检
+        List<AbstractKit> health = new ArrayList<>();
+
         //视觉工具
         List<AbstractKit> ui = new ArrayList<>();
         //平台工具
@@ -202,6 +207,10 @@ class DoraemonKitReal {
         performance.add(new MethodCostKit());
         performance.add(new UIPerformanceKit());
         performance.add(new LargePictureKit());
+
+        // 健康体检
+        health.add(new HealthMethodTimeKit());
+        health.add(new HealthNetworkKit());
 
         try {
             //动态添加leakcanary
@@ -265,6 +274,7 @@ class DoraemonKitReal {
         }
 
         DokitConstant.KIT_MAPS.put(Category.PERFORMANCE, performance);
+        DokitConstant.KIT_MAPS.put(Category.HEALTH, health);
         DokitConstant.KIT_MAPS.put(Category.PLATFORM, platform);
         DokitConstant.KIT_MAPS.put(Category.TOOLS, tool);
         DokitConstant.KIT_MAPS.put(Category.UI, ui);

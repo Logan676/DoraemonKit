@@ -44,4 +44,9 @@ public interface Category {
      * weex
      */
     int WEEX = 8;
+
+    /**
+     * 健康体检模块
+     */
+    int HEALTH = 9;
 }

@@ -14,6 +14,7 @@ import com.didichuxing.doraemonkit.kit.health.traffic.NetworkTrafficListView;
 import com.didichuxing.doraemonkit.kit.health.traffic.NetworkTrafficStatisticView;
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMainPagerAdapter;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
+import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,19 @@ public class HealthFragmentChildNetWorkTraffic extends BaseFragment implements V
     }
 
     private void initView() {
+        final TitleBar mTitleBar = findViewById(R.id.title_bar);
+        mTitleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
+            @Override
+            public void onLeftClick() {
+                getActivity().onBackPressed();
+            }
+
+            @Override
+            public void onRightClick() {
+
+            }
+        });
+
         mViewPager = findViewById(R.id.traffic_view_pager);
         mTrafficListView = new NetworkTrafficListView(getContext());
         mTrafficStatisticView = new NetworkTrafficStatisticView(getContext());
@@ -59,7 +73,7 @@ public class HealthFragmentChildNetWorkTraffic extends BaseFragment implements V
 
         final View tabChart = findViewById(R.id.tab_chart);
         ((TextView) tabChart.findViewById(R.id.tab_text)).setText(R.string.dk_net_monitor_chart);
-        ((ImageView) tabChart.findViewById(R.id.tab_icon)).setImageResource(R.drawable.dk_net_work_monitor_summary_selector);
+        ((ImageView) tabChart.findViewById(R.id.tab_icon)).setImageResource(R.drawable.dk_net_work_monitor_chart_selector);
         tabChart.setOnClickListener(this);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

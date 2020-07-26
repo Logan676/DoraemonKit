@@ -58,4 +58,12 @@ public interface FragmentIndex {
      * 健康体检结果
      */
     int FRAGMENT_HEALTH_RESULT = 28;
+
+    /**
+     * 健康体检结果
+     */
+    int FRAGMENT_HEALTH_NETWORK_RESULT_LIST = 29;
+
+    int FRAGMENT_HEALTH_NETWORK_RESULT_ITEM = 30;
+
 }

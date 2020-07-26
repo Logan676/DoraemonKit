@@ -1,13 +1,18 @@
 package com.didichuxing.doraemonkit.kit.health.traffic;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.constant.BundleKey;
+import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil;
+import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
 
@@ -78,6 +83,27 @@ public class NetworkTrafficStatisticAdapter extends AbsRecyclerAdapter<AbsViewBi
                 String trafficSize = "总流量：" + ByteUtil.getPrintSize(sum);
                 trafficAmount.setText(trafficSize);
             }
+
+
+            getView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("className",networkBean.getPage());
+                    startUniversalActivity(
+                            getContext(),
+                            bundle,
+                            FragmentIndex.FRAGMENT_HEALTH_NETWORK_RESULT_ITEM);
+                }
+            });
+        }
+
+        public void startUniversalActivity(Context context, Bundle bundle, int fragmentIndex) {
+            Intent intent = new Intent(context, UniversalActivity.class);
+            intent.putExtras(bundle);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(BundleKey.FRAGMENT_INDEX, fragmentIndex);
+            context.startActivity(intent);
         }
     }
 

@@ -431,7 +431,7 @@ public class AppHealthInfo implements Serializable {
 
                 private String time;
                 private String url;
-                private String up;
+                private String up;// TODO: 2020/7/26 改成long
                 private String down;
                 private String code;
                 private String method;

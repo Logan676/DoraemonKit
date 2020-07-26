@@ -54,25 +54,30 @@ public class ToolPanelDokitView extends AbsDokitView {
         mGroupKitContainer.setLayoutManager(new LinearLayoutManager(getContext()));
         mGroupKitAdapter = new GroupKitAdapter(getContext());
         List<List<KitItem>> kitLists = new ArrayList<>();
-        //获取指定类型的工具
-        List<KitItem> bizs = DokitConstant.getKitItems(Category.BIZ);
-        if (bizs != null && !bizs.isEmpty()) {
-            kitLists.add(bizs);
-        }
+
+        //常用工具
+        kitLists.add(DokitConstant.getKitItems(Category.TOOLS));
+
         //平台工具
         if (DokitConstant.getKitItems(Category.PLATFORM) != null && !DokitConstant.getKitItems(Category.PLATFORM).isEmpty()) {
             kitLists.add(DokitConstant.getKitItems(Category.PLATFORM));
         }
-        //常用工具
-        kitLists.add(DokitConstant.getKitItems(Category.TOOLS));
+
+        //视觉工具
+        kitLists.add(DokitConstant.getKitItems(Category.UI));
+
         //weex
         if (DokitConstant.getKitItems(Category.WEEX) != null && !DokitConstant.getKitItems(Category.WEEX).isEmpty()) {
             kitLists.add(DokitConstant.getKitItems(Category.WEEX));
         }
         //性能监控
-        kitLists.add(DokitConstant.getKitItems(Category.PERFORMANCE));
-        //视觉工具
-        kitLists.add(DokitConstant.getKitItems(Category.UI));
+        // kitLists.add(DokitConstant.getKitItems(Category.PERFORMANCE));
+
+        //获取指定类型的工具
+        List<KitItem> bizs = DokitConstant.getKitItems(Category.BIZ);
+        if (bizs != null && !bizs.isEmpty()) {
+            kitLists.add(bizs);
+        }
 
         kitLists.add(DokitConstant.getKitItems(Category.FLOAT_MODE));
         kitLists.add(DokitConstant.getKitItems(Category.CLOSE));

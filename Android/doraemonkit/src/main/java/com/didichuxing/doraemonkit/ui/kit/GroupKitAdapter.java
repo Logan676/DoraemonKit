@@ -228,7 +228,9 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
                 case Category.PERFORMANCE:
                     name.setText(R.string.dk_category_performance);
                     break;
-
+                case Category.HEALTH:
+                    name.setText(R.string.dk_kit_health_result);
+                    break;
                 case Category.TOOLS:
                     name.setText(R.string.dk_category_tools);
                     break;
