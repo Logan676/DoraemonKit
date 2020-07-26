@@ -34,9 +34,15 @@ import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockKit;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.kit.gpsmock.ServiceHookManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
+import com.didichuxing.doraemonkit.kit.health.HealthAppStartKit;
+import com.didichuxing.doraemonkit.kit.health.HealthCPUKit;
+import com.didichuxing.doraemonkit.kit.health.HealthFrameKit;
 import com.didichuxing.doraemonkit.kit.health.HealthKit;
-import com.didichuxing.doraemonkit.kit.health.HealthMethodTimeKit;
+import com.didichuxing.doraemonkit.kit.health.HealthLargeFileKit;
+import com.didichuxing.doraemonkit.kit.health.HealthMemoryKit;
+import com.didichuxing.doraemonkit.kit.health.HealthStartActivityTimeKit;
 import com.didichuxing.doraemonkit.kit.health.HealthNetworkKit;
+import com.didichuxing.doraemonkit.kit.health.HealthUILayerKit;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit;
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit;
@@ -209,8 +215,14 @@ class DoraemonKitReal {
         performance.add(new LargePictureKit());
 
         // 健康体检
-        health.add(new HealthMethodTimeKit());
+        health.add(new HealthAppStartKit());
+        health.add(new HealthFrameKit());
+        health.add(new HealthCPUKit());
         health.add(new HealthNetworkKit());
+        health.add(new HealthUILayerKit());
+        health.add(new HealthMemoryKit());
+        health.add(new HealthStartActivityTimeKit());
+        health.add(new HealthLargeFileKit());
 
         try {
             //动态添加leakcanary

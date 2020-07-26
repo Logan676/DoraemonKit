@@ -72,6 +72,7 @@ dependencies {
     compileOnly files('libs/okhttp-2.1.0.jar')
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'com.zzhoujay.richtext:richtext:3.0.8'
 }
 
 

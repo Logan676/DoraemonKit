@@ -66,4 +66,6 @@ public interface FragmentIndex {
 
     int FRAGMENT_HEALTH_NETWORK_RESULT_ITEM = 30;
 
+    int FRAGMENT_HEALTH_APP_START = 31;
+
 }

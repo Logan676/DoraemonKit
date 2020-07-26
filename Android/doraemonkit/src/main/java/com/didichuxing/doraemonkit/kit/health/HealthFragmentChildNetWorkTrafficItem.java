@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.health.traffic.NetworkTrafficItemAdapter;
-import com.didichuxing.doraemonkit.kit.health.traffic.NetworkTrafficListAdapter;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;

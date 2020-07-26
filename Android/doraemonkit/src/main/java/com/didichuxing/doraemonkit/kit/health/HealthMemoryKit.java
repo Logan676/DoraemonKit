@@ -7,7 +7,7 @@ import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 
-public class HealthMethodTimeKit extends AbstractKit {
+public class HealthMemoryKit extends AbstractKit {
     @Override
     public int getCategory() {
         return Category.HEALTH;
@@ -15,17 +15,17 @@ public class HealthMethodTimeKit extends AbstractKit {
 
     @Override
     public int getName() {
-        return R.string.dk_kit_health_start;
+        return R.string.dk_kit_health_memory;
     }
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_start_time_consume;
+        return R.drawable.dk_memory;
     }
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_FRAME_INFO);
+//        startUniversalActivity(context, FragmentIndex.FRAGMENT_FRAME_INFO);
     }
 
     @Override

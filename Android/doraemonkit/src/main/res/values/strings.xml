@@ -80,9 +80,11 @@
     <string name="dk_kit_layout_border">布局边框</string>
 
     <string name="dk_kit_health_start">启动</string>
+    <string name="dk_kit_health_start_title">App启动耗时</string>
     <string name="dk_kit_health_frame_block">帧率/卡顿</string>
     <string name="dk_kit_health_cpu">CPU</string>
     <string name="dk_kit_health_net">网络</string>
+    <string name="dk_kit_health_ui_layer">UI层级</string>
     <string name="dk_kit_health_memory">内存/内存泄露</string>
     <string name="dk_kit_health_start_activity">页面打开时长</string>
     <string name="dk_kit_health_large_file">大文件</string>
