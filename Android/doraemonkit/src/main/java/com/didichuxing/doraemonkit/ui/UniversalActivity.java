@@ -16,6 +16,7 @@ import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
 import com.didichuxing.doraemonkit.kit.health.HealthFragment;
 import com.didichuxing.doraemonkit.kit.health.HealthFragmentChildAppStart;
+import com.didichuxing.doraemonkit.kit.health.HealthFragmentChildBlock;
 import com.didichuxing.doraemonkit.kit.health.HealthFragmentChildNetWorkTraffic;
 import com.didichuxing.doraemonkit.kit.health.HealthFragmentChildNetWorkTrafficItem;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment;
@@ -150,6 +151,9 @@ public class UniversalActivity extends BaseActivity {
             //性能监控===App启动
             case FragmentIndex.FRAGMENT_HEALTH_APP_START:
                 fragmentClass = HealthFragmentChildAppStart.class;
+                break;
+            case FragmentIndex.FRAGMENT_HEALTH_BLOCK:
+                fragmentClass = HealthFragmentChildBlock.class;
                 break;
             default:
                 break;

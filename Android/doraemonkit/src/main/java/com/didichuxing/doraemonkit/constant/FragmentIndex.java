@@ -68,4 +68,11 @@ public interface FragmentIndex {
 
     int FRAGMENT_HEALTH_APP_START = 31;
 
+    int FRAGMENT_HEALTH_BLOCK = 32;
+
+    int FRAGMENT_HEALTH_BLOCK_ITEM = 33;
+
+    int FRAGMENT_HEALTH_FRAME = 34;
+
+    int FRAGMENT_HEALTH_FRAME_ITEM = 35;
 }

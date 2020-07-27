@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.kit.health.model;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
@@ -39,7 +41,7 @@ public class AppHealthInfo implements Serializable {
         this.data = data;
     }
 
-    public static class BaseInfoBean implements Serializable{
+    public static class BaseInfoBean implements Serializable {
         /**
          * caseName : iOS5.0版本性能测试
          * testPerson : 易小翔
@@ -259,7 +261,7 @@ public class AppHealthInfo implements Serializable {
             this.bigFile = bigFile;
         }
 
-        public static class AppStartBean implements Serializable{
+        public static class AppStartBean implements Serializable {
             /**
              * costTime : 3200
              * costDetail : 代码耗时字符串
@@ -294,7 +296,7 @@ public class AppHealthInfo implements Serializable {
                 this.loadFunc = loadFunc;
             }
 
-            public static class LoadFuncBean implements Serializable{
+            public static class LoadFuncBean implements Serializable {
                 /**
                  * className : ClassA
                  * costTime : 15
@@ -324,7 +326,7 @@ public class AppHealthInfo implements Serializable {
         /**
          * cpu、内存、fps 共享的Bean
          */
-        public static class PerformanceBean implements Serializable{
+        public static class PerformanceBean implements Serializable {
             /**
              * page : HomeViewController
              * values : [{"time":"时间戳","value":"0.5"},{"time":"时间戳","value":"0.8"}]
@@ -361,7 +363,7 @@ public class AppHealthInfo implements Serializable {
             /**
              * cpu、内存、fps 共享的ValueBean
              */
-            public static class ValuesBean implements Serializable{
+            public static class ValuesBean implements Serializable {
                 /**
                  * time : 时间戳
                  * value : 0.5
@@ -394,7 +396,7 @@ public class AppHealthInfo implements Serializable {
         }
 
 
-        public static class NetworkBean implements Serializable{
+        public static class NetworkBean implements Serializable {
             /**
              * page : HomeViewController
              * values : [{"time":"时间戳","url":"http://www.baidu.com","up":"100","down":"200","code":"200","method":"Get"},{"time":"时间戳","url":"http://www.taobao.com","up":"100","down":"200","code":"200","method":"Post"}]
@@ -419,7 +421,7 @@ public class AppHealthInfo implements Serializable {
                 this.values = values;
             }
 
-            public static class NetworkValuesBean implements Serializable{
+            public static class NetworkValuesBean implements Serializable {
                 /**
                  * time : 时间戳
                  * url : http://www.baidu.com
@@ -486,7 +488,7 @@ public class AppHealthInfo implements Serializable {
             }
         }
 
-        public static class BlockBean implements Serializable{
+        public static class BlockBean implements Serializable, Comparable<BlockBean> {
             /**
              * page : HomeViewController
              * blockTime : 4.2
@@ -520,9 +522,14 @@ public class AppHealthInfo implements Serializable {
             public void setDetail(String detail) {
                 this.detail = detail;
             }
+
+            @Override
+            public int compareTo(@NonNull BlockBean o) {
+                return (int) (o.blockTime - this.blockTime + 0.5f);
+            }
         }
 
-        public static class SubThreadUIBean implements Serializable{
+        public static class SubThreadUIBean implements Serializable {
             /**
              * page : HomeViewController
              * detail : 代码堆栈
@@ -548,7 +555,7 @@ public class AppHealthInfo implements Serializable {
             }
         }
 
-        public static class UiLevelBean implements Serializable{
+        public static class UiLevelBean implements Serializable {
             /**
              * page : HomeViewController
              * level : 10
@@ -584,7 +591,7 @@ public class AppHealthInfo implements Serializable {
             }
         }
 
-        public static class LeakBean implements Serializable{
+        public static class LeakBean implements Serializable {
             /**
              * page : HomeViewController
              * detail : 内存泄漏详情
@@ -610,7 +617,7 @@ public class AppHealthInfo implements Serializable {
             }
         }
 
-        public static class PageLoadBean implements Serializable{
+        public static class PageLoadBean implements Serializable {
             /**
              * page : HomeViewController
              * time : 120
