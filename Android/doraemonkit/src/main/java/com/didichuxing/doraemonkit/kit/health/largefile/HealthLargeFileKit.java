@@ -25,7 +25,7 @@ public class HealthLargeFileKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-//        startUniversalActivity(context, FragmentIndex.FRAGMENT_FRAME_INFO);
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_HEALTH_LARGE_FILE);
     }
 
     @Override

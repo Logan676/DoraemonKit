@@ -19,6 +19,7 @@ import com.didichuxing.doraemonkit.kit.health.appstart.HealthFragmentChildAppSta
 import com.didichuxing.doraemonkit.kit.health.block.HealthFragmentChildBlock;
 import com.didichuxing.doraemonkit.kit.health.cpu.HealthFragmentChildCPU;
 import com.didichuxing.doraemonkit.kit.health.cpu.HealthFragmentChildCPUItem;
+import com.didichuxing.doraemonkit.kit.health.largefile.HealthFragmentChildLargeFile;
 import com.didichuxing.doraemonkit.kit.health.traffic.HealthFragmentChildNetWorkTraffic;
 import com.didichuxing.doraemonkit.kit.health.traffic.HealthFragmentChildNetWorkTrafficItem;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment;
@@ -183,6 +184,9 @@ public class UniversalActivity extends BaseActivity {
                 break;
             case FragmentIndex.FRAGMENT_HEALTH_LOAD_PAGE_ITEM:
                 fragmentClass = HealthFragmentChildCPUItem.class;
+                break;
+            case FragmentIndex.FRAGMENT_HEALTH_LARGE_FILE:
+                fragmentClass = HealthFragmentChildLargeFile.class;
                 break;
             default:
                 break;

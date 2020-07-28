@@ -90,4 +90,5 @@ public interface FragmentIndex {
 
     int FRAGMENT_HEALTH_LOAD_PAGE_ITEM = 42;
 
+    int FRAGMENT_HEALTH_LARGE_FILE = 43;
 }
