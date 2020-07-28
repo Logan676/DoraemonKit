@@ -89,6 +89,8 @@
     <string name="dk_kit_health_start_activity">页面打开时长</string>
     <string name="dk_kit_health_large_file">大文件</string>
 
+    <string name="dk_kit_health_memory_list">内存列表</string>
+    <string name="dk_kit_health_memory_chart">内存图表</string>
 
     <string name="dk_sysinfo_device_info">手机信息</string>
     <string name="dk_sysinfo_app_info">App信息</string>

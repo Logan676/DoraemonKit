@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
+import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_FRAME;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_MEMORY;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_UI_LAYER;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean.ValuesBean;
@@ -124,27 +126,75 @@ public class CPUChartView extends LinearLayout implements OnChartValueSelectedLi
         int count;
         float range = 30;
 
+        ArrayList<Entry> entries = buildEntries();
+
+        if (entries == null) return;
+
+        // sort by x-value
+        Collections.sort(entries, new EntryXComparator());
+
+        // create a dataset and give it a type
+        LineDataSet set1 = new LineDataSet(entries, getLabelByType());
+
+        set1.setLineWidth(1.5f);
+        set1.setCircleRadius(4f);
+
+        // create a data object with the data sets
+        LineData data = new LineData(set1);
+
+        // set data
+        chart.setData(data);
+
+    }
+
+    private String getLabelByType() {
+        if (TYPE_FRAME == mType) {
+            return "帧率";
+        } else if (TYPE_CPU == mType) {
+            return "CPU";
+        } else if (TYPE_MEMORY == mType) {
+            return "内存使用";
+        }
+        return "CPU";
+    }
+
+    private ArrayList<Entry> buildEntries() {
+        int count;
         ArrayList<Entry> entries = new ArrayList<>();
 
         AppHealthInfo info = AppHealthInfoUtil.getInstance().getAppHealthInfo();
         if (info == null || info.getData() == null) {
-            return;
+            return null;
         }
 
-        if (TYPE_FRAME == mType || TYPE_CPU == mType) {
-            List<PerformanceBean> cpus = info.getData().getCpu();
-            count = cpus.size();
+        if (TYPE_FRAME == mType || TYPE_CPU == mType || TYPE_MEMORY == mType) {
+            List<PerformanceBean> performanceBeans = null;
+            if (TYPE_FRAME == mType) {
+                performanceBeans = info.getData().getFps();
+            } else if (TYPE_CPU == mType) {
+                performanceBeans = info.getData().getCpu();
+            } else if (TYPE_MEMORY == mType) {
+                performanceBeans = info.getData().getMemory();
+            }
+
+            if (performanceBeans == null) return null;
+            count = performanceBeans.size();
 
             for (int i = 0; i < count; i++) {
-                PerformanceBean bean = cpus.get(i);
+                PerformanceBean bean = performanceBeans.get(i);
                 List<ValuesBean> values = bean.getValues();
                 float fpsSum = 0f;
                 for (ValuesBean b : values) {
                     fpsSum += Float.parseFloat(b.getValue());
                 }
-                float averageFps = fpsSum / values.size();
+                if (TYPE_FRAME == mType || TYPE_CPU == mType) {
+                    float averageFps = fpsSum / values.size();
+                    entries.add(new Entry(i, averageFps, bean.getPage()));
+                } else if (TYPE_MEMORY == mType) {
+                    // String printSize = ByteUtil.getPrintSize((long) fpsSum);
+                    entries.add(new Entry(i, fpsSum, bean.getPage()));
+                }
 
-                entries.add(new Entry(i, averageFps, bean.getPage()));
             }
         } else if (TYPE_UI_LAYER == mType) {
             List<UiLevelBean> uiLevels = info.getData().getUiLevel();
@@ -156,22 +206,7 @@ public class CPUChartView extends LinearLayout implements OnChartValueSelectedLi
                 entries.add(new Entry(i, Integer.parseInt(level), bean.getPage()));
             }
         }
-
-        // sort by x-value
-        Collections.sort(entries, new EntryXComparator());
-
-        // create a dataset and give it a type
-        LineDataSet set1 = new LineDataSet(entries, "CPU");
-
-        set1.setLineWidth(1.5f);
-        set1.setCircleRadius(4f);
-
-        // create a data object with the data sets
-        LineData data = new LineData(set1);
-
-        // set data
-        chart.setData(data);
-
+        return entries;
     }
 
     @Override

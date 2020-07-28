@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_MEMORY;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_UI_LAYER;
 
 public class HealthFragmentChildCPU extends BaseFragment implements View.OnClickListener {
@@ -102,8 +103,10 @@ public class HealthFragmentChildCPU extends BaseFragment implements View.OnClick
         switch (type) {
             case TYPE_CPU:
                 return "CPU监控摘要";
-            case BundleKey.TYPE_UI_LAYER:
+            case TYPE_UI_LAYER:
                 return "UI层级";
+            case TYPE_MEMORY:
+                return getResources().getString(R.string.dk_kit_health_memory);
             default:
                 return "";
         }
@@ -114,6 +117,8 @@ public class HealthFragmentChildCPU extends BaseFragment implements View.OnClick
             return R.string.dk_cpu_list;
         } else if (TYPE_UI_LAYER == type) {
             return R.string.dk_ui_layer_detail;
+        } else if (TYPE_MEMORY == type) {
+            return R.string.dk_kit_health_memory_list;
         } else {
             return R.string.dk_cpu_list;
         }
@@ -124,6 +129,8 @@ public class HealthFragmentChildCPU extends BaseFragment implements View.OnClick
             return R.string.dk_cpu_chart;
         } else if (TYPE_UI_LAYER == type) {
             return R.string.dk_ui_layer_chart;
+        } else if (TYPE_MEMORY == type) {
+            return R.string.dk_kit_health_memory_chart;
         } else {
             return R.string.dk_cpu_chart;
         }

@@ -19,6 +19,7 @@ import java.util.List;
 
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_FRAME;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_MEMORY;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_UI_LAYER;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.UiLevelBean;
@@ -52,7 +53,7 @@ public class CPUListView extends LinearLayout {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mFrameList.setLayoutManager(layoutManager);
 
-        if (TYPE_CPU == mType || TYPE_FRAME == mType) {
+        if (TYPE_CPU == mType || TYPE_FRAME == mType || TYPE_MEMORY == mType) {
             mListAdapter = new FrameListAdapter(getContext(), mType);
             mFrameList.setAdapter(mListAdapter);
         } else if (TYPE_UI_LAYER == mType) {
@@ -70,7 +71,6 @@ public class CPUListView extends LinearLayout {
 
     private void initData() {
         synchronized (this) {
-
             if (TYPE_CPU == mType) {
                 AppHealthInfo info = AppHealthInfoUtil.getInstance().getAppHealthInfo();
                 if (info == null || info.getData() == null || info.getData().getCpu() == null) {
@@ -79,6 +79,22 @@ public class CPUListView extends LinearLayout {
 
                 List<PerformanceBean> cpus = info.getData().getCpu();
                 mListAdapter.setData(cpus);
+            } else if (TYPE_FRAME == mType) {
+                AppHealthInfo info = AppHealthInfoUtil.getInstance().getAppHealthInfo();
+                if (info == null || info.getData() == null || info.getData().getFps() == null) {
+                    return;
+                }
+
+                List<PerformanceBean> fps = info.getData().getFps();
+                mListAdapter.setData(fps);
+            } else if (TYPE_MEMORY == mType) {
+                AppHealthInfo info = AppHealthInfoUtil.getInstance().getAppHealthInfo();
+                if (info == null || info.getData() == null || info.getData().getMemory() == null) {
+                    return;
+                }
+
+                List<PerformanceBean> memoryList = info.getData().getMemory();
+                mListAdapter.setData(memoryList);
             } else if (TYPE_UI_LAYER == mType) {
                 AppHealthInfo info = AppHealthInfoUtil.getInstance().getAppHealthInfo();
                 if (info == null || info.getData() == null || info.getData().getUiLevel() == null) {

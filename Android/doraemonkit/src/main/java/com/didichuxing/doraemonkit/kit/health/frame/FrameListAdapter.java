@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
+import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
@@ -20,7 +21,9 @@ import java.util.List;
 
 import static com.didichuxing.doraemonkit.constant.BundleKey.KEY_CLASS_NAME;
 import static com.didichuxing.doraemonkit.constant.BundleKey.KEY_TYPE;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_FRAME;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_MEMORY;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean.ValuesBean;
 
@@ -77,21 +80,19 @@ public class FrameListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Performan
 
             if (values != null) {
 
-                float averageFrame = 0;
-
-                for (ValuesBean b : values) {
-                    averageFrame += Float.parseFloat(b.getValue());
-                }
-
-                float average = averageFrame * 1.0f / values.size();
-
                 if (TYPE_FRAME == mType) {
-                    frame.setText("帧率平均值：" + average);
-                } else {
-                    String format = String.format("CPU平均值：%.2f%%", average);
+                    frame.setText("帧率平均值：" + getAverage(values));
+                } else if (TYPE_CPU == mType) {
+                    String format = String.format("CPU平均值：%.2f%%", getAverage(values));
+                    frame.setText(format);
+                } else if (TYPE_MEMORY == mType) {
+                    float sum = getSum(values);
+                    String size = ByteUtil.getPrintSize((long) sum);
+                    String format = "内存泄露：" + size;
                     frame.setText(format);
                 }
             }
+
 
             getView().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -102,11 +103,37 @@ public class FrameListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Performan
                     startUniversalActivity(
                             getContext(),
                             bundle,
-                            TYPE_FRAME == mType ?
-                                    FragmentIndex.FRAGMENT_HEALTH_FRAME_ITEM :
-                                    FragmentIndex.FRAGMENT_HEALTH_CPU_ITEM);
+                            getFragmentIndex());
                 }
             });
+        }
+
+        private int getFragmentIndex() {
+            if (TYPE_FRAME == mType) {
+                return FragmentIndex.FRAGMENT_HEALTH_FRAME_ITEM;
+            } else if (TYPE_CPU == mType) {
+                return FragmentIndex.FRAGMENT_HEALTH_CPU_ITEM;
+            } else if (TYPE_MEMORY == mType) {
+                return FragmentIndex.FRAGMENT_HEALTH_MEMORY_ITEM;
+            }
+            return FragmentIndex.FRAGMENT_HEALTH_FRAME_ITEM;
+        }
+
+        private float getAverage(List<ValuesBean> values) {
+            float averageFrame = 0;
+
+            for (ValuesBean b : values) {
+                averageFrame += Float.parseFloat(b.getValue());
+            }
+            return averageFrame * 1.0f / values.size();
+        }
+
+        private float getSum(List<ValuesBean> valuesBeans) {
+            float sum = 0;
+            for (ValuesBean b : valuesBeans) {
+                sum += Float.parseFloat(b.getValue());
+            }
+            return sum;
         }
 
         public void startUniversalActivity(Context context, Bundle bundle, int fragmentIndex) {
