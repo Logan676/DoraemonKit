@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.health.frame;
+package com.didichuxing.doraemonkit.kit.health.cpu;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -27,21 +27,21 @@ import java.util.List;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean.ValuesBean;
 
-public class FrameChartView extends LinearLayout implements OnChartValueSelectedListener {
+public class CPUChartView extends LinearLayout implements OnChartValueSelectedListener {
 
     public static final int COLOR_FRAME = 0xff2CCD9E;
 
     private LineChart chart;
 
-    public FrameChartView(Context context) {
+    public CPUChartView(Context context) {
         this(context, null);
     }
 
-    public FrameChartView(Context context, @Nullable AttributeSet attrs) {
+    public CPUChartView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public FrameChartView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CPUChartView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.dk_fragment_network_monitor_chart, this);
         initView();
@@ -122,13 +122,13 @@ public class FrameChartView extends LinearLayout implements OnChartValueSelected
             return;
         }
 
-        List<PerformanceBean> fps = info.getData().getFps();
-        count = fps.size();
+        List<PerformanceBean> cpus = info.getData().getCpu();
+        count = cpus.size();
 
         ArrayList<Entry> entries = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            PerformanceBean bean = fps.get(i);
+            PerformanceBean bean = cpus.get(i);
             List<ValuesBean> values = bean.getValues();
             float fpsSum = 0f;
             for (ValuesBean b : values) {
@@ -143,7 +143,7 @@ public class FrameChartView extends LinearLayout implements OnChartValueSelected
         Collections.sort(entries, new EntryXComparator());
 
         // create a dataset and give it a type
-        LineDataSet set1 = new LineDataSet(entries, "帧率");
+        LineDataSet set1 = new LineDataSet(entries, "CPU");
 
         set1.setLineWidth(1.5f);
         set1.setCircleRadius(4f);

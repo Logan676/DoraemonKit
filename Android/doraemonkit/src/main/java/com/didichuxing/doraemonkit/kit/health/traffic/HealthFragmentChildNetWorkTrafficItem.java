@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.health;
+package com.didichuxing.doraemonkit.kit.health.traffic;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.constant.BundleKey;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.traffic.NetworkTrafficItemAdapter;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
@@ -15,6 +17,7 @@ import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
 
 import java.util.List;
 
+import static com.didichuxing.doraemonkit.constant.BundleKey.KEY_CLASS_NAME;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.NetworkBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.NetworkBean.NetworkValuesBean;
 
@@ -65,7 +68,7 @@ public class HealthFragmentChildNetWorkTrafficItem extends BaseFragment {
     private void initData() {
         synchronized (this) {
             if (getArguments() != null) {
-                mClassName = getArguments().getString("className");
+                mClassName = getArguments().getString(KEY_CLASS_NAME);
             }
 
             NetworkBean info = AppHealthInfoUtil.getInstance().getNetWorkInfo(mClassName);

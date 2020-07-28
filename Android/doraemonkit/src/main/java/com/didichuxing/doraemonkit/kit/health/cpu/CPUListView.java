@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.health.frame;
+package com.didichuxing.doraemonkit.kit.health.cpu;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -10,27 +10,28 @@ import android.widget.LinearLayout;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
+import com.didichuxing.doraemonkit.kit.health.frame.FrameListAdapter;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
 
 import java.util.List;
 
-import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_FRAME;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean;
 
-public class FrameListView extends LinearLayout {
+public class CPUListView extends LinearLayout {
     private RecyclerView mFrameList;
-    private FrameListAdapter mFrameListAdapter;
+    private FrameListAdapter mListAdapter;
 
-    public FrameListView(Context context) {
+    public CPUListView(Context context) {
         this(context, null);
     }
 
-    public FrameListView(Context context, @Nullable AttributeSet attrs) {
+    public CPUListView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public FrameListView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CPUListView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.dk_fragment_network_monitor_list, this);
         initView();
@@ -42,8 +43,8 @@ public class FrameListView extends LinearLayout {
         mFrameList = findViewById(R.id.network_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mFrameList.setLayoutManager(layoutManager);
-        mFrameListAdapter = new FrameListAdapter(getContext(), TYPE_FRAME);
-        mFrameList.setAdapter(mFrameListAdapter);
+        mListAdapter = new FrameListAdapter(getContext(), TYPE_CPU);
+        mFrameList.setAdapter(mListAdapter);
 
         DividerItemDecoration decoration = new DividerItemDecoration(DividerItemDecoration.VERTICAL);
         decoration.setDrawable(getResources().getDrawable(R.drawable.dk_divider));
@@ -57,12 +58,12 @@ public class FrameListView extends LinearLayout {
         synchronized (this) {
 
             AppHealthInfo info = AppHealthInfoUtil.getInstance().getAppHealthInfo();
-            if (info == null || info.getData() == null || info.getData().getFps() == null) {
+            if (info == null || info.getData() == null || info.getData().getCpu() == null) {
                 return;
             }
 
-            List<PerformanceBean> fps = info.getData().getFps();
-            mFrameListAdapter.setData(fps);
+            List<PerformanceBean> cpus = info.getData().getCpu();
+            mListAdapter.setData(cpus);
         }
     }
 

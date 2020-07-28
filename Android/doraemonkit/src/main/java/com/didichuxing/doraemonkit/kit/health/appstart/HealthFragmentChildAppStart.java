@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.health;
+package com.didichuxing.doraemonkit.kit.health.appstart;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;

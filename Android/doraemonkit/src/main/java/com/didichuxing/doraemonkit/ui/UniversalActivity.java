@@ -15,10 +15,12 @@ import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
 import com.didichuxing.doraemonkit.kit.health.HealthFragment;
-import com.didichuxing.doraemonkit.kit.health.HealthFragmentChildAppStart;
-import com.didichuxing.doraemonkit.kit.health.HealthFragmentChildBlock;
-import com.didichuxing.doraemonkit.kit.health.HealthFragmentChildNetWorkTraffic;
-import com.didichuxing.doraemonkit.kit.health.HealthFragmentChildNetWorkTrafficItem;
+import com.didichuxing.doraemonkit.kit.health.appstart.HealthFragmentChildAppStart;
+import com.didichuxing.doraemonkit.kit.health.block.HealthFragmentChildBlock;
+import com.didichuxing.doraemonkit.kit.health.cpu.HealthFragmentChildCPU;
+import com.didichuxing.doraemonkit.kit.health.cpu.HealthFragmentChildCPUItem;
+import com.didichuxing.doraemonkit.kit.health.traffic.HealthFragmentChildNetWorkTraffic;
+import com.didichuxing.doraemonkit.kit.health.traffic.HealthFragmentChildNetWorkTrafficItem;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment;
 import com.didichuxing.doraemonkit.kit.loginfo.LogInfoSettingFragment;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostFragment;
@@ -154,6 +156,21 @@ public class UniversalActivity extends BaseActivity {
                 break;
             case FragmentIndex.FRAGMENT_HEALTH_BLOCK:
                 fragmentClass = HealthFragmentChildBlock.class;
+                break;
+            case FragmentIndex.FRAGMENT_HEALTH_CPU:
+                fragmentClass = HealthFragmentChildCPU.class;
+                break;
+            //性能监控===CPU===单个class
+            case FragmentIndex.FRAGMENT_HEALTH_CPU_ITEM:
+                fragmentClass = HealthFragmentChildCPUItem.class;
+                break;
+            //性能监控===BLOCK===单个class
+            case FragmentIndex.FRAGMENT_HEALTH_BLOCK_ITEM:
+                fragmentClass = HealthFragmentChildCPUItem.class;
+                break;
+            //性能监控===FRAME===单个class
+            case FragmentIndex.FRAGMENT_HEALTH_FRAME_ITEM:
+                fragmentClass = HealthFragmentChildCPUItem.class;
                 break;
             default:
                 break;

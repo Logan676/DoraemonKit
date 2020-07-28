@@ -19,6 +19,7 @@ import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
 import java.util.Collection;
 import java.util.List;
 
+import static com.didichuxing.doraemonkit.constant.BundleKey.KEY_CLASS_NAME;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.NetworkBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.NetworkBean.NetworkValuesBean;
 
@@ -89,7 +90,7 @@ public class NetworkTrafficStatisticAdapter extends AbsRecyclerAdapter<AbsViewBi
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("className",networkBean.getPage());
+                    bundle.putString(KEY_CLASS_NAME, networkBean.getPage());
                     startUniversalActivity(
                             getContext(),
                             bundle,

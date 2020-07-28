@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.health;
+package com.didichuxing.doraemonkit.kit.health.appstart;
 
 import android.content.Context;
 

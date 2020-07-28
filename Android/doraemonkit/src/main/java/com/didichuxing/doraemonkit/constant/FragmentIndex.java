@@ -75,4 +75,9 @@ public interface FragmentIndex {
     int FRAGMENT_HEALTH_FRAME = 34;
 
     int FRAGMENT_HEALTH_FRAME_ITEM = 35;
+
+    int FRAGMENT_HEALTH_CPU = 36;
+
+    int FRAGMENT_HEALTH_CPU_ITEM = 37;
+
 }

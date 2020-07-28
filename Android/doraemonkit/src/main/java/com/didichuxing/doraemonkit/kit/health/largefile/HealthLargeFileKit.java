@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.health;
+package com.didichuxing.doraemonkit.kit.health.largefile;
 
 import android.content.Context;
 
@@ -7,7 +7,7 @@ import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 
-public class HealthCPUKit extends AbstractKit {
+public class HealthLargeFileKit extends AbstractKit {
     @Override
     public int getCategory() {
         return Category.HEALTH;
@@ -15,12 +15,12 @@ public class HealthCPUKit extends AbstractKit {
 
     @Override
     public int getName() {
-        return R.string.dk_kit_health_cpu;
+        return R.string.dk_kit_health_large_file;
     }
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_cpu2;
+        return R.drawable.dk_large_file;
     }
 
     @Override

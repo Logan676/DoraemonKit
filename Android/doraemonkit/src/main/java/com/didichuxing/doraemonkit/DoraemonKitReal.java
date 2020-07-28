@@ -34,15 +34,15 @@ import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockKit;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.kit.gpsmock.ServiceHookManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
-import com.didichuxing.doraemonkit.kit.health.HealthAppStartKit;
-import com.didichuxing.doraemonkit.kit.health.HealthCPUKit;
-import com.didichuxing.doraemonkit.kit.health.HealthFrameKit;
+import com.didichuxing.doraemonkit.kit.health.appstart.HealthAppStartKit;
+import com.didichuxing.doraemonkit.kit.health.cpu.HealthCPUKit;
+import com.didichuxing.doraemonkit.kit.health.frame.HealthFrameKit;
 import com.didichuxing.doraemonkit.kit.health.HealthKit;
-import com.didichuxing.doraemonkit.kit.health.HealthLargeFileKit;
-import com.didichuxing.doraemonkit.kit.health.HealthMemoryKit;
-import com.didichuxing.doraemonkit.kit.health.HealthStartActivityTimeKit;
-import com.didichuxing.doraemonkit.kit.health.HealthNetworkKit;
-import com.didichuxing.doraemonkit.kit.health.HealthUILayerKit;
+import com.didichuxing.doraemonkit.kit.health.largefile.HealthLargeFileKit;
+import com.didichuxing.doraemonkit.kit.health.memory.HealthMemoryKit;
+import com.didichuxing.doraemonkit.kit.health.loadpage.HealthLoadPageKit;
+import com.didichuxing.doraemonkit.kit.health.traffic.HealthNetworkKit;
+import com.didichuxing.doraemonkit.kit.health.uilayer.HealthUILayerKit;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit;
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit;
@@ -221,7 +221,7 @@ class DoraemonKitReal {
         health.add(new HealthNetworkKit());
         health.add(new HealthUILayerKit());
         health.add(new HealthMemoryKit());
-        health.add(new HealthStartActivityTimeKit());
+        health.add(new HealthLoadPageKit());
         health.add(new HealthLargeFileKit());
 
         try {

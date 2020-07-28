@@ -18,6 +18,9 @@ import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
 import java.util.Collection;
 import java.util.List;
 
+import static com.didichuxing.doraemonkit.constant.BundleKey.KEY_CLASS_NAME;
+import static com.didichuxing.doraemonkit.constant.BundleKey.KEY_TYPE;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_FRAME;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean.ValuesBean;
 
@@ -25,14 +28,16 @@ import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBea
  * @desc: 帧率
  */
 public class FrameListAdapter extends AbsRecyclerAdapter<AbsViewBinder<PerformanceBean>, PerformanceBean> {
+    private int mType = TYPE_FRAME;
 
-    public FrameListAdapter(Context context) {
+    public FrameListAdapter(Context context, int type) {
         super(context);
+        mType = type;
     }
 
     @Override
     protected AbsViewBinder<PerformanceBean> createViewHolder(View view, int viewType) {
-        return new ItemViewHolder(view);
+        return new ItemViewHolder(view, mType);
     }
 
     @Override
@@ -44,8 +49,11 @@ public class FrameListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Performan
         private TextView className;
         private TextView frame;
 
-        public ItemViewHolder(View view) {
+        private int mType;
+
+        public ItemViewHolder(View view, int type) {
             super(view);
+            mType = type;
         }
 
         @Override
@@ -77,18 +85,26 @@ public class FrameListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Performan
 
                 float average = averageFrame * 1.0f / values.size();
 
-                frame.setText("帧率平均值：" + average);
+                if (TYPE_FRAME == mType) {
+                    frame.setText("帧率平均值：" + average);
+                } else {
+                    String format = String.format("CPU平均值：%.2f%%", average);
+                    frame.setText(format);
+                }
             }
 
             getView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("className", bean.getPage());
+                    bundle.putString(KEY_CLASS_NAME, bean.getPage());
+                    bundle.putInt(KEY_TYPE, mType);
                     startUniversalActivity(
                             getContext(),
                             bundle,
-                            FragmentIndex.FRAGMENT_HEALTH_FRAME_ITEM);
+                            TYPE_FRAME == mType ?
+                                    FragmentIndex.FRAGMENT_HEALTH_FRAME_ITEM :
+                                    FragmentIndex.FRAGMENT_HEALTH_CPU_ITEM);
                 }
             });
         }

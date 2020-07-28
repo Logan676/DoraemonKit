@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.health;
+package com.didichuxing.doraemonkit.kit.health.cpu;
 
 import android.content.Context;
 
@@ -7,7 +7,7 @@ import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 
-public class HealthNetworkKit extends AbstractKit {
+public class HealthCPUKit extends AbstractKit {
     @Override
     public int getCategory() {
         return Category.HEALTH;
@@ -15,17 +15,17 @@ public class HealthNetworkKit extends AbstractKit {
 
     @Override
     public int getName() {
-        return R.string.dk_kit_health_net;
+        return R.string.dk_kit_health_cpu;
     }
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_network_traffic;
+        return R.drawable.dk_cpu2;
     }
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_HEALTH_NETWORK_RESULT_LIST);
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_HEALTH_CPU);
     }
 
     @Override
