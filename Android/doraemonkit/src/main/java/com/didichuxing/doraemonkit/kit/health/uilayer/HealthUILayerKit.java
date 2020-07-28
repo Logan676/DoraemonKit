@@ -1,11 +1,15 @@
 package com.didichuxing.doraemonkit.kit.health.uilayer;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
+
+import static com.didichuxing.doraemonkit.constant.BundleKey.KEY_TYPE;
 
 public class HealthUILayerKit extends AbstractKit {
     @Override
@@ -25,7 +29,9 @@ public class HealthUILayerKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-//        startUniversalActivity(context, FragmentIndex.FRAGMENT_FRAME_INFO);
+        Bundle bundle = new Bundle();
+        bundle.putInt(KEY_TYPE, BundleKey.TYPE_UI_LAYER);
+        startUniversalActivity(context, bundle, FragmentIndex.FRAGMENT_HEALTH_UI_LAYER);
     }
 
     @Override

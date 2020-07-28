@@ -80,4 +80,6 @@ public interface FragmentIndex {
 
     int FRAGMENT_HEALTH_CPU_ITEM = 37;
 
+    int FRAGMENT_HEALTH_UI_LAYER = 38;
+
 }

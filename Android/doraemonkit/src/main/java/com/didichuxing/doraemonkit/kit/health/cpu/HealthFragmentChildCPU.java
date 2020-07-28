@@ -9,12 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMainPagerAdapter;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_UI_LAYER;
 
 public class HealthFragmentChildCPU extends BaseFragment implements View.OnClickListener {
     private ViewPager mViewPager;
@@ -33,8 +37,13 @@ public class HealthFragmentChildCPU extends BaseFragment implements View.OnClick
     }
 
     private void initView() {
+        int type = TYPE_CPU;
+        if (getArguments() != null) {
+            type = getArguments().getInt(BundleKey.KEY_TYPE);
+        }
+
         final TitleBar mTitleBar = findViewById(R.id.title_bar);
-        mTitleBar.setTitle("CPU监控摘要");
+        mTitleBar.setTitle(getTitleByType(type));
         mTitleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
             @Override
             public void onLeftClick() {
@@ -48,20 +57,20 @@ public class HealthFragmentChildCPU extends BaseFragment implements View.OnClick
         });
 
         mViewPager = findViewById(R.id.traffic_view_pager);
-        mCPUListView = new CPUListView(getContext());
-        mCPUChartView = new CPUChartView(getContext());
+        mCPUListView = new CPUListView(getContext(), type);
+        mCPUChartView = new CPUChartView(getContext(), type);
         List<View> views = new ArrayList<>();
         views.add(mCPUListView);
         views.add(mCPUChartView);
         mViewPager.setAdapter(new NetWorkMainPagerAdapter(getContext(), views));
 
         final View tabList = findViewById(R.id.tab_list);
-        ((TextView) tabList.findViewById(R.id.tab_text)).setText(R.string.dk_cpu_list);
+        ((TextView) tabList.findViewById(R.id.tab_text)).setText(getLeftTabTextByType(type));
         ((ImageView) tabList.findViewById(R.id.tab_icon)).setImageResource(R.drawable.dk_net_work_monitor_list_selector);
         tabList.setOnClickListener(this);
 
         final View tabChart = findViewById(R.id.tab_chart);
-        ((TextView) tabChart.findViewById(R.id.tab_text)).setText(R.string.dk_cpu_chart);
+        ((TextView) tabChart.findViewById(R.id.tab_text)).setText(getRightTabTextByType(type));
         ((ImageView) tabChart.findViewById(R.id.tab_icon)).setImageResource(R.drawable.dk_net_work_monitor_chart_selector);
         tabChart.setOnClickListener(this);
 
@@ -87,6 +96,37 @@ public class HealthFragmentChildCPU extends BaseFragment implements View.OnClick
 
             }
         });
+    }
+
+    private String getTitleByType(int type) {
+        switch (type) {
+            case TYPE_CPU:
+                return "CPU监控摘要";
+            case BundleKey.TYPE_UI_LAYER:
+                return "UI层级";
+            default:
+                return "";
+        }
+    }
+
+    private int getLeftTabTextByType(int type) {
+        if (TYPE_CPU == type) {
+            return R.string.dk_cpu_list;
+        } else if (TYPE_UI_LAYER == type) {
+            return R.string.dk_ui_layer_detail;
+        } else {
+            return R.string.dk_cpu_list;
+        }
+    }
+
+    private int getRightTabTextByType(int type) {
+        if (TYPE_CPU == type) {
+            return R.string.dk_cpu_chart;
+        } else if (TYPE_UI_LAYER == type) {
+            return R.string.dk_ui_layer_chart;
+        } else {
+            return R.string.dk_cpu_chart;
+        }
     }
 
     @Override

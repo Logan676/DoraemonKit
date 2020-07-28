@@ -160,17 +160,17 @@ public class UniversalActivity extends BaseActivity {
             case FragmentIndex.FRAGMENT_HEALTH_CPU:
                 fragmentClass = HealthFragmentChildCPU.class;
                 break;
-            //性能监控===CPU===单个class
             case FragmentIndex.FRAGMENT_HEALTH_CPU_ITEM:
                 fragmentClass = HealthFragmentChildCPUItem.class;
                 break;
-            //性能监控===BLOCK===单个class
             case FragmentIndex.FRAGMENT_HEALTH_BLOCK_ITEM:
                 fragmentClass = HealthFragmentChildCPUItem.class;
                 break;
-            //性能监控===FRAME===单个class
             case FragmentIndex.FRAGMENT_HEALTH_FRAME_ITEM:
                 fragmentClass = HealthFragmentChildCPUItem.class;
+                break;
+            case FragmentIndex.FRAGMENT_HEALTH_UI_LAYER:
+                fragmentClass = HealthFragmentChildCPU.class;
                 break;
             default:
                 break;

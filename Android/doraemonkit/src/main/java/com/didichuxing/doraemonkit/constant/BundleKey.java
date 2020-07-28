@@ -8,6 +8,9 @@ public interface BundleKey {
     int TYPE_FRAME = 1;
     int TYPE_BLOCK = 2;
     int TYPE_CPU = 3;
+    int TYPE_UI_LAYER = 4;
+    int TYPE_MEMORY = 5;
+    int TYPE_LOAD_PAGE = 6;
 
     String FILE_KEY = "file_key";
     String DIR_KEY = "dir_key";

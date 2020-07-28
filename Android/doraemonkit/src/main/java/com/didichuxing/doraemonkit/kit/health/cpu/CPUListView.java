@@ -12,28 +12,36 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.frame.FrameListAdapter;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
+import com.didichuxing.doraemonkit.kit.health.uilayer.UILayerListAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
 
 import java.util.List;
 
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_FRAME;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_UI_LAYER;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean;
+import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.UiLevelBean;
 
 public class CPUListView extends LinearLayout {
     private RecyclerView mFrameList;
     private FrameListAdapter mListAdapter;
+    private UILayerListAdapter mUILayerListAdapter;
 
-    public CPUListView(Context context) {
-        this(context, null);
+    private int mType;
+
+    public CPUListView(Context context, int type) {
+        this(context, null, type);
     }
 
-    public CPUListView(Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
+    public CPUListView(Context context, @Nullable AttributeSet attrs, int type) {
+        this(context, attrs, 0, type);
     }
 
-    public CPUListView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CPUListView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int type) {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.dk_fragment_network_monitor_list, this);
+        mType = type;
         initView();
         initData();
     }
@@ -43,8 +51,14 @@ public class CPUListView extends LinearLayout {
         mFrameList = findViewById(R.id.network_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mFrameList.setLayoutManager(layoutManager);
-        mListAdapter = new FrameListAdapter(getContext(), TYPE_CPU);
-        mFrameList.setAdapter(mListAdapter);
+
+        if (TYPE_CPU == mType || TYPE_FRAME == mType) {
+            mListAdapter = new FrameListAdapter(getContext(), mType);
+            mFrameList.setAdapter(mListAdapter);
+        } else if (TYPE_UI_LAYER == mType) {
+            mUILayerListAdapter = new UILayerListAdapter(getContext(), mType);
+            mFrameList.setAdapter(mUILayerListAdapter);
+        }
 
         DividerItemDecoration decoration = new DividerItemDecoration(DividerItemDecoration.VERTICAL);
         decoration.setDrawable(getResources().getDrawable(R.drawable.dk_divider));
@@ -57,13 +71,24 @@ public class CPUListView extends LinearLayout {
     private void initData() {
         synchronized (this) {
 
-            AppHealthInfo info = AppHealthInfoUtil.getInstance().getAppHealthInfo();
-            if (info == null || info.getData() == null || info.getData().getCpu() == null) {
-                return;
+            if (TYPE_CPU == mType) {
+                AppHealthInfo info = AppHealthInfoUtil.getInstance().getAppHealthInfo();
+                if (info == null || info.getData() == null || info.getData().getCpu() == null) {
+                    return;
+                }
+
+                List<PerformanceBean> cpus = info.getData().getCpu();
+                mListAdapter.setData(cpus);
+            } else if (TYPE_UI_LAYER == mType) {
+                AppHealthInfo info = AppHealthInfoUtil.getInstance().getAppHealthInfo();
+                if (info == null || info.getData() == null || info.getData().getUiLevel() == null) {
+                    return;
+                }
+
+                List<UiLevelBean> uiLevels = info.getData().getUiLevel();
+                mUILayerListAdapter.setData(uiLevels);
             }
 
-            List<PerformanceBean> cpus = info.getData().getCpu();
-            mListAdapter.setData(cpus);
         }
     }
 

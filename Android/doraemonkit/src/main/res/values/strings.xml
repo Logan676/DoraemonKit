@@ -191,6 +191,9 @@
     <string name="dk_cpu_list">CPU平均使用率列表</string>
     <string name="dk_cpu_chart">CPU平均使用率图表</string>
     <string name="dk_cpu_chart_detail">CPU使用率详情</string>
+    <string name="dk_ui_layer_detail">UI层级详情</string>
+    <string name="dk_ui_layer_list">UI层级列表</string>
+    <string name="dk_ui_layer_chart">UI层级图表</string>
 
     <string name="dk_net_monitor_title_summary">流量监控摘要</string>
     <string name="dk_net_monitor_list">流量监控列表</string>

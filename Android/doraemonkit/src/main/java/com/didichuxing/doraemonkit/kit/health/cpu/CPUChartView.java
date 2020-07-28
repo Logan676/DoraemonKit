@@ -24,8 +24,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_FRAME;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_UI_LAYER;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean.ValuesBean;
+import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.UiLevelBean;
 
 public class CPUChartView extends LinearLayout implements OnChartValueSelectedListener {
 
@@ -33,17 +37,20 @@ public class CPUChartView extends LinearLayout implements OnChartValueSelectedLi
 
     private LineChart chart;
 
-    public CPUChartView(Context context) {
-        this(context, null);
+    private int mType;
+
+    public CPUChartView(Context context, int type) {
+        this(context, null, type);
     }
 
-    public CPUChartView(Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
+    public CPUChartView(Context context, @Nullable AttributeSet attrs, int type) {
+        this(context, attrs, 0, type);
     }
 
-    public CPUChartView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CPUChartView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int type) {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.dk_fragment_network_monitor_chart, this);
+        mType = type;
         initView();
         initData();
     }
@@ -117,26 +124,37 @@ public class CPUChartView extends LinearLayout implements OnChartValueSelectedLi
         int count;
         float range = 30;
 
+        ArrayList<Entry> entries = new ArrayList<>();
+
         AppHealthInfo info = AppHealthInfoUtil.getInstance().getAppHealthInfo();
         if (info == null || info.getData() == null) {
             return;
         }
 
-        List<PerformanceBean> cpus = info.getData().getCpu();
-        count = cpus.size();
+        if (TYPE_FRAME == mType || TYPE_CPU == mType) {
+            List<PerformanceBean> cpus = info.getData().getCpu();
+            count = cpus.size();
 
-        ArrayList<Entry> entries = new ArrayList<>();
+            for (int i = 0; i < count; i++) {
+                PerformanceBean bean = cpus.get(i);
+                List<ValuesBean> values = bean.getValues();
+                float fpsSum = 0f;
+                for (ValuesBean b : values) {
+                    fpsSum += Float.parseFloat(b.getValue());
+                }
+                float averageFps = fpsSum / values.size();
 
-        for (int i = 0; i < count; i++) {
-            PerformanceBean bean = cpus.get(i);
-            List<ValuesBean> values = bean.getValues();
-            float fpsSum = 0f;
-            for (ValuesBean b : values) {
-                fpsSum += Float.parseFloat(b.getValue());
+                entries.add(new Entry(i, averageFps, bean.getPage()));
             }
-            float averageFps = fpsSum / values.size();
+        } else if (TYPE_UI_LAYER == mType) {
+            List<UiLevelBean> uiLevels = info.getData().getUiLevel();
+            count = uiLevels.size();
 
-            entries.add(new Entry(i, averageFps, bean.getPage()));
+            for (int i = 0; i < count; i++) {
+                UiLevelBean bean = uiLevels.get(i);
+                String level = bean.getLevel();
+                entries.add(new Entry(i, Integer.parseInt(level), bean.getPage()));
+            }
         }
 
         // sort by x-value

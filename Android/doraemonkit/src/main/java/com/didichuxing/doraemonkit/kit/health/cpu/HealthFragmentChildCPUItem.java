@@ -19,6 +19,7 @@ import static com.didichuxing.doraemonkit.constant.BundleKey.KEY_CLASS_NAME;
 import static com.didichuxing.doraemonkit.constant.BundleKey.KEY_TYPE;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_FRAME;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_UI_LAYER;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean.ValuesBean;
@@ -86,6 +87,9 @@ public class HealthFragmentChildCPUItem extends BaseFragment {
             } else if (TYPE_CPU == mType) {
                 mTitleBar.setTitle(getString(R.string.dk_cpu_chart_detail));
                 list = data.getCpu();
+            }else if (TYPE_UI_LAYER == mType) {
+                mTitleBar.setTitle(getString(R.string.dk_ui_layer_detail));
+//                list = data.getUiLevel();
             }
 
             if (list == null) return;
