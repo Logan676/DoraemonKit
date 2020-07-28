@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_LOAD_PAGE;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_MEMORY;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_UI_LAYER;
 
@@ -102,11 +103,13 @@ public class HealthFragmentChildCPU extends BaseFragment implements View.OnClick
     private String getTitleByType(int type) {
         switch (type) {
             case TYPE_CPU:
-                return "CPU监控摘要";
+                return getResources().getString(R.string.dk_kit_health_cpu);
             case TYPE_UI_LAYER:
-                return "UI层级";
+                return getResources().getString(R.string.dk_kit_health_ui_layer);
             case TYPE_MEMORY:
                 return getResources().getString(R.string.dk_kit_health_memory);
+            case TYPE_LOAD_PAGE:
+                return getResources().getString(R.string.dk_kit_health_load_page);
             default:
                 return "";
         }
@@ -119,6 +122,8 @@ public class HealthFragmentChildCPU extends BaseFragment implements View.OnClick
             return R.string.dk_ui_layer_detail;
         } else if (TYPE_MEMORY == type) {
             return R.string.dk_kit_health_memory_list;
+        } else if (TYPE_LOAD_PAGE == type) {
+            return R.string.dk_kit_health_load_page_list;
         } else {
             return R.string.dk_cpu_list;
         }
@@ -131,6 +136,8 @@ public class HealthFragmentChildCPU extends BaseFragment implements View.OnClick
             return R.string.dk_ui_layer_chart;
         } else if (TYPE_MEMORY == type) {
             return R.string.dk_kit_health_memory_chart;
+        } else if (TYPE_LOAD_PAGE == type) {
+            return R.string.dk_kit_health_load_page_chart;
         } else {
             return R.string.dk_cpu_chart;
         }

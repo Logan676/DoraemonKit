@@ -86,4 +86,8 @@ public interface FragmentIndex {
 
     int FRAGMENT_HEALTH_MEMORY_ITEM = 40;
 
+    int FRAGMENT_HEALTH_LOAD_PAGE = 41;
+
+    int FRAGMENT_HEALTH_LOAD_PAGE_ITEM = 42;
+
 }

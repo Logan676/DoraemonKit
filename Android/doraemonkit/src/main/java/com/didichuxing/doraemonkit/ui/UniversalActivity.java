@@ -178,6 +178,12 @@ public class UniversalActivity extends BaseActivity {
             case FragmentIndex.FRAGMENT_HEALTH_MEMORY_ITEM:
                 fragmentClass = HealthFragmentChildCPUItem.class;
                 break;
+            case FragmentIndex.FRAGMENT_HEALTH_LOAD_PAGE:
+                fragmentClass = HealthFragmentChildCPU.class;
+                break;
+            case FragmentIndex.FRAGMENT_HEALTH_LOAD_PAGE_ITEM:
+                fragmentClass = HealthFragmentChildCPUItem.class;
+                break;
             default:
                 break;
         }

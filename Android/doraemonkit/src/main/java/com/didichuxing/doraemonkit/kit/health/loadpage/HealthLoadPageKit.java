@@ -1,8 +1,10 @@
 package com.didichuxing.doraemonkit.kit.health.loadpage;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
@@ -15,7 +17,7 @@ public class HealthLoadPageKit extends AbstractKit {
 
     @Override
     public int getName() {
-        return R.string.dk_kit_health_start_activity;
+        return R.string.dk_kit_health_load_page;
     }
 
     @Override
@@ -25,7 +27,9 @@ public class HealthLoadPageKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_FRAME_INFO);
+        Bundle bundle = new Bundle();
+        bundle.putInt(BundleKey.KEY_TYPE, BundleKey.TYPE_LOAD_PAGE);
+        startUniversalActivity(context, bundle, FragmentIndex.FRAGMENT_HEALTH_LOAD_PAGE);
     }
 
     @Override

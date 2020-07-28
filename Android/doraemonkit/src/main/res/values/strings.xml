@@ -86,9 +86,11 @@
     <string name="dk_kit_health_net">网络</string>
     <string name="dk_kit_health_ui_layer">UI层级</string>
     <string name="dk_kit_health_memory">内存/内存泄露</string>
-    <string name="dk_kit_health_start_activity">页面打开时长</string>
+    <string name="dk_kit_health_load_page">页面打开时长</string>
     <string name="dk_kit_health_large_file">大文件</string>
 
+    <string name="dk_kit_health_load_page_list">页面打开时长列表</string>
+    <string name="dk_kit_health_load_page_chart">页面打开时长图表</string>
     <string name="dk_kit_health_memory_list">内存列表</string>
     <string name="dk_kit_health_memory_chart">内存图表</string>
 

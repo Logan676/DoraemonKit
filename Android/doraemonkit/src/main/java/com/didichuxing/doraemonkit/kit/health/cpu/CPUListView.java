@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.frame.FrameListAdapter;
+import com.didichuxing.doraemonkit.kit.health.loadpage.PageLoadListAdapter;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.health.uilayer.UILayerListAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
@@ -19,15 +20,18 @@ import java.util.List;
 
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_FRAME;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_LOAD_PAGE;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_MEMORY;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_UI_LAYER;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.UiLevelBean;
+import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PageLoadBean;
 
 public class CPUListView extends LinearLayout {
     private RecyclerView mFrameList;
     private FrameListAdapter mListAdapter;
     private UILayerListAdapter mUILayerListAdapter;
+    private PageLoadListAdapter mLoadListAdapter;
 
     private int mType;
 
@@ -59,6 +63,9 @@ public class CPUListView extends LinearLayout {
         } else if (TYPE_UI_LAYER == mType) {
             mUILayerListAdapter = new UILayerListAdapter(getContext(), mType);
             mFrameList.setAdapter(mUILayerListAdapter);
+        } else if (TYPE_LOAD_PAGE == mType) {
+            mLoadListAdapter = new PageLoadListAdapter(getContext(), mType);
+            mFrameList.setAdapter(mLoadListAdapter);
         }
 
         DividerItemDecoration decoration = new DividerItemDecoration(DividerItemDecoration.VERTICAL);
@@ -103,6 +110,14 @@ public class CPUListView extends LinearLayout {
 
                 List<UiLevelBean> uiLevels = info.getData().getUiLevel();
                 mUILayerListAdapter.setData(uiLevels);
+            } else if (TYPE_LOAD_PAGE == mType) {
+                AppHealthInfo info = AppHealthInfoUtil.getInstance().getAppHealthInfo();
+                if (info == null || info.getData() == null || info.getData().getPageLoad() == null) {
+                    return;
+                }
+
+                List<PageLoadBean> pageLoadBeanList = info.getData().getPageLoad();
+                mLoadListAdapter.setData(pageLoadBeanList);
             }
 
         }

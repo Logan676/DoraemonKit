@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
-import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -27,8 +26,10 @@ import java.util.List;
 
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_FRAME;
+import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_LOAD_PAGE;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_MEMORY;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_UI_LAYER;
+import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PageLoadBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean.ValuesBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.UiLevelBean;
@@ -154,6 +155,8 @@ public class CPUChartView extends LinearLayout implements OnChartValueSelectedLi
             return "CPU";
         } else if (TYPE_MEMORY == mType) {
             return "内存使用";
+        } else if (TYPE_LOAD_PAGE == mType) {
+            return "页面打开时长";
         }
         return "CPU";
     }
@@ -204,6 +207,15 @@ public class CPUChartView extends LinearLayout implements OnChartValueSelectedLi
                 UiLevelBean bean = uiLevels.get(i);
                 String level = bean.getLevel();
                 entries.add(new Entry(i, Integer.parseInt(level), bean.getPage()));
+            }
+        } else if (TYPE_LOAD_PAGE == mType) {
+            List<PageLoadBean> pageLoadBeanList = info.getData().getPageLoad();
+            count = pageLoadBeanList.size();
+
+            for (int i = 0; i < count; i++) {
+                PageLoadBean bean = pageLoadBeanList.get(i);
+                String time = bean.getTime();
+                entries.add(new Entry(i, Integer.parseInt(time), bean.getPage()));
             }
         }
         return entries;
