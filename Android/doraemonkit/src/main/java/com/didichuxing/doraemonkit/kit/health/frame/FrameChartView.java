@@ -1,7 +1,9 @@
 package com.didichuxing.doraemonkit.kit.health.frame;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -9,6 +11,7 @@ import android.widget.LinearLayout;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
+import com.didichuxing.doraemonkit.util.StringUtil;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -16,16 +19,16 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.EntryXComparator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean.ValuesBean;
+import static com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM;
 
 public class FrameChartView extends LinearLayout implements OnChartValueSelectedListener {
 
@@ -56,7 +59,7 @@ public class FrameChartView extends LinearLayout implements OnChartValueSelected
         chart.setDrawGridBackground(false);
 
         // no description text
-        chart.getDescription().setEnabled(false);
+        chart.setDescription("页面帧率");
 
         // enable touch gestures
         chart.setTouchEnabled(true);
@@ -79,13 +82,20 @@ public class FrameChartView extends LinearLayout implements OnChartValueSelected
 
         XAxis xl = chart.getXAxis();
         xl.setAvoidFirstLastClipping(true);
-        xl.setAxisMinimum(0f);
+        xl.setAxisMinValue(0f);
+        xl.setPosition(BOTTOM);
 //        xl.setTextColor(COLOR_FRAME);
 
         YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.setInverted(true);
-        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+//        leftAxis.setInverted(true);
+        leftAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
 //        leftAxis.setTextColor(COLOR_FRAME);
+        leftAxis.setValueFormatter(new YAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, YAxis yAxis) {
+                return String.valueOf((int) value);
+            }
+        });
 
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setEnabled(false);
@@ -101,6 +111,12 @@ public class FrameChartView extends LinearLayout implements OnChartValueSelected
 
         // modify the legend ...
         l.setForm(Legend.LegendForm.LINE);
+        l.setTextSize(14f);
+        l.setTextColor(Color.BLACK);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(true);
 
         // don't forget to refresh the drawing
         chart.invalidate();
@@ -127,6 +143,17 @@ public class FrameChartView extends LinearLayout implements OnChartValueSelected
 
         ArrayList<Entry> entries = new ArrayList<>();
 
+        ArrayList<String> xVals = new ArrayList<String>();
+        for (int i = 0; i < count; i++) {
+            if (fps.get(i) == null) continue;
+            String className = fps.get(i).getPage();
+            String name = StringUtil.getSimpleClassName(className);
+            if (!TextUtils.isEmpty(name)) {
+                xVals.add(name);
+            } else {
+                xVals.add(i + "");
+            }
+        }
         for (int i = 0; i < count; i++) {
             PerformanceBean bean = fps.get(i);
             List<ValuesBean> values = bean.getValues();
@@ -136,11 +163,11 @@ public class FrameChartView extends LinearLayout implements OnChartValueSelected
             }
             float averageFps = fpsSum / values.size();
 
-            entries.add(new Entry(i, averageFps, bean.getPage()));
+            entries.add(new Entry(averageFps, i, bean.getPage()));
         }
 
         // sort by x-value
-        Collections.sort(entries, new EntryXComparator());
+        //Collections.sort(entries, new EntryXComparator());
 
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(entries, "帧率");
@@ -149,7 +176,7 @@ public class FrameChartView extends LinearLayout implements OnChartValueSelected
         set1.setCircleRadius(4f);
 
         // create a data object with the data sets
-        LineData data = new LineData(set1);
+        LineData data = new LineData(xVals, set1);
 
         // set data
         chart.setData(data);
@@ -157,16 +184,17 @@ public class FrameChartView extends LinearLayout implements OnChartValueSelected
     }
 
     @Override
-    public void onValueSelected(Entry e, Highlight h) {
+    public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
         Log.i("Entry selected", e.toString());
 
-        chart.centerViewToAnimated(e.getX(), e.getY(), chart.getData().getDataSetByIndex(h.getDataSetIndex())
+        chart.centerViewToAnimated(e.getXIndex(), e.getVal(), chart.getData().getDataSetByIndex(h.getDataSetIndex())
                 .getAxisDependency(), 500);
         //chart.zoomAndCenterAnimated(2.5f, 2.5f, e.getX(), e.getY(), chart.getData().getDataSetByIndex(dataSetIndex)
         // .getAxisDependency(), 1000);
         //chart.zoomAndCenterAnimated(1.8f, 1.8f, e.getX(), e.getY(), chart.getData().getDataSetByIndex(dataSetIndex)
         // .getAxisDependency(), 1000);
     }
+
 
     @Override
     public void onNothingSelected() {

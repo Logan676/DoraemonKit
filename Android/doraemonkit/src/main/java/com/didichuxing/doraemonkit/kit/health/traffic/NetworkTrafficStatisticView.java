@@ -13,6 +13,9 @@ import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.NetworkBean;
@@ -61,6 +64,9 @@ public class NetworkTrafficStatisticView extends LinearLayout {
             }
 
             List<NetworkBean> network = info.getData().getNetwork();
+
+            Collections.sort(network);
+
             mStatisticAdapter.setData(network);
         }
     }

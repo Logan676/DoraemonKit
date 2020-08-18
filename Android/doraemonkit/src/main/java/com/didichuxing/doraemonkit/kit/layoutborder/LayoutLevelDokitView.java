@@ -17,7 +17,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
@@ -60,7 +60,7 @@ public class LayoutLevelDokitView extends AbsDokitView {
     };
 
     private void resolveActivity(Activity activity) {
-        if (activity == null || (activity instanceof UniversalActivity)) {
+        if (activity == null || (activity instanceof DoraemonActivity)) {
             return;
         }
         Window window = activity.getWindow();

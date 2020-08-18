@@ -1,17 +1,11 @@
 package com.didichuxing.doraemonkit.kit.timecounter;
 
-import android.app.Application;
 import android.os.Looper;
-import android.util.Log;
 
-import com.blankj.utilcode.util.GsonUtils;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.methodtrace.AppHealthMethodCostBean;
 import com.didichuxing.doraemonkit.kit.methodtrace.AppHealthMethodCostBeanWrap;
-import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
-import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostCallback;
-import com.didichuxing.doraemonkit.kit.methodtrace.OrderBean;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.ActivityCounter;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.AppCounter;
@@ -40,6 +34,22 @@ public class TimeCounterManager {
     private AppCounter mAppCounter = new AppCounter();
     private ActivityCounter mActivityCounter = new ActivityCounter();
 
+
+    /**
+     * App attachBaseContext
+     */
+    public void onAppAttachBaseContextStart() {
+        mAppCounter.attachStart();
+    }
+
+
+    /**
+     * App attachBaseContext
+     */
+    public void onAppAttachBaseContextEnd() {
+        mAppCounter.attachEnd();
+    }
+
     /**
      * App 启动
      */
@@ -58,16 +68,21 @@ public class TimeCounterManager {
         mAppCounter.end();
         CounterInfo counterInfo = getAppSetupInfo();
         List<AppHealthMethodCostBean> appHealthMethodCostBeans = new ArrayList<>();
-        AppHealthMethodCostBean appHealthMethodCostBean = new AppHealthMethodCostBean();
-        appHealthMethodCostBean.setCostTime("-1");
-        appHealthMethodCostBean.setFunctionName("no functionName");
-        appHealthMethodCostBean.setThreadId("-1");
-        appHealthMethodCostBean.setThreadName("-1");
-        appHealthMethodCostBeans.add(appHealthMethodCostBean);
+        AppHealthMethodCostBean onCreate = new AppHealthMethodCostBean();
+        onCreate.setCostTime(mAppCounter.getStartCountTime() + "ms");
+        onCreate.setFunctionName("Application onCreate");
+        appHealthMethodCostBeans.add(onCreate);
+        AppHealthMethodCostBean onAttach = new AppHealthMethodCostBean();
+        onAttach.setCostTime(mAppCounter.getAttachCountTime() + "ms");
+        onAttach.setFunctionName("Application attachBaseContext");
+        appHealthMethodCostBeans.add(onAttach);
+
         AppHealthMethodCostBeanWrap appHealthMethodCostBeanWrap = new AppHealthMethodCostBeanWrap();
-        appHealthMethodCostBeanWrap.setTitle("no detail infos");
+        appHealthMethodCostBeanWrap.setTitle("App启动耗时");
         appHealthMethodCostBeanWrap.setData(appHealthMethodCostBeans);
-        AppHealthInfoUtil.getInstance().setAppStartInfo(counterInfo.totalCost, GsonUtils.toJson(appHealthMethodCostBeanWrap), new ArrayList<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean>());
+        AppHealthInfoUtil.getInstance().setAppStartInfo(counterInfo.totalCost,
+                toJson(appHealthMethodCostBeanWrap),
+                new ArrayList<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean>());
 
         //Log.i(TAG, "=========onAppCreateEnd=========");
 //        MethodCost.stopMethodTracingAndPrintLog("appStart", new MethodCostCallback() {
@@ -129,6 +144,41 @@ public class TimeCounterManager {
 //            }
 //        });
 
+    }
+
+    private String toJson(AppHealthMethodCostBeanWrap beanWrap) {
+        if (beanWrap == null) return "";
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("=========DoKit函数调用栈==========\n");
+        stringBuilder.append(beanWrap.getTitle());
+        stringBuilder.append("\n");
+        stringBuilder.append("\n");
+        List<AppHealthMethodCostBean> data = beanWrap.getData();
+        if (data == null) return stringBuilder.toString();
+        for (AppHealthMethodCostBean b : data) {
+            stringBuilder.append("耗时:" + b.getCostTime());
+            stringBuilder.append("\n");
+
+//            stringBuilder.append("线程名:" + b.getThreadName());
+//            stringBuilder.append("\n");
+//
+//            stringBuilder.append("线程Id:" + b.getThreadId());
+//            stringBuilder.append("\n");
+
+
+//            stringBuilder.append("类名:" + b.getClass().getSimpleName());
+//            stringBuilder.append("\n");
+
+            stringBuilder.append("方法名:" + b.getFunctionName());
+            stringBuilder.append("\n");
+            stringBuilder.append("\n");
+            stringBuilder.append("\n");
+        }
+        stringBuilder.append("\n");
+        stringBuilder.append("\n");
+
+        return stringBuilder.toString();
     }
 
     public void onActivityPause() {

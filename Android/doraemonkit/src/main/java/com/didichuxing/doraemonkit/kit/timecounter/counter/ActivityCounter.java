@@ -127,7 +127,7 @@ public class ActivityCounter {
         try {
             //将Activity 打开耗时 添加到AppHealth 中
             if (DokitConstant.APP_HEALTH_RUNNING) {
-                if (!ActivityUtils.getTopActivity().getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.ui.UniversalActivity")) {
+                if (!ActivityUtils.getTopActivity().getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.ui.DoraemonActivity")) {
                     AppHealthInfo.DataBean.PageLoadBean pageLoadBean = new AppHealthInfo.DataBean.PageLoadBean();
                     pageLoadBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
                     pageLoadBean.setTime("" + counterInfo.totalCost);

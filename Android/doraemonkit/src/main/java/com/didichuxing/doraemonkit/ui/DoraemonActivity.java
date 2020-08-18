@@ -17,8 +17,8 @@ import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
 import com.didichuxing.doraemonkit.kit.health.HealthFragment;
 import com.didichuxing.doraemonkit.kit.health.appstart.HealthFragmentChildAppStart;
 import com.didichuxing.doraemonkit.kit.health.block.HealthFragmentChildBlock;
-import com.didichuxing.doraemonkit.kit.health.cpu.HealthFragmentChildCPU;
-import com.didichuxing.doraemonkit.kit.health.cpu.HealthFragmentChildCPUItem;
+import com.didichuxing.doraemonkit.kit.health.common.HealthFragmentChildPerformance;
+import com.didichuxing.doraemonkit.kit.health.common.HealthFragmentChildPerformanceItem;
 import com.didichuxing.doraemonkit.kit.health.largefile.HealthFragmentChildLargeFile;
 import com.didichuxing.doraemonkit.kit.health.traffic.HealthFragmentChildNetWorkTraffic;
 import com.didichuxing.doraemonkit.kit.health.traffic.HealthFragmentChildNetWorkTrafficItem;
@@ -44,7 +44,7 @@ import com.didichuxing.doraemonkit.ui.base.BaseFragment;
  * app基础信息Activity
  */
 
-public class UniversalActivity extends BaseActivity {
+public class DoraemonActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -159,31 +159,31 @@ public class UniversalActivity extends BaseActivity {
                 fragmentClass = HealthFragmentChildBlock.class;
                 break;
             case FragmentIndex.FRAGMENT_HEALTH_CPU:
-                fragmentClass = HealthFragmentChildCPU.class;
+                fragmentClass = HealthFragmentChildPerformance.class;
                 break;
             case FragmentIndex.FRAGMENT_HEALTH_CPU_ITEM:
-                fragmentClass = HealthFragmentChildCPUItem.class;
+                fragmentClass = HealthFragmentChildPerformanceItem.class;
                 break;
             case FragmentIndex.FRAGMENT_HEALTH_BLOCK_ITEM:
-                fragmentClass = HealthFragmentChildCPUItem.class;
+                fragmentClass = HealthFragmentChildPerformanceItem.class;
                 break;
             case FragmentIndex.FRAGMENT_HEALTH_FRAME_ITEM:
-                fragmentClass = HealthFragmentChildCPUItem.class;
+                fragmentClass = HealthFragmentChildPerformanceItem.class;
                 break;
             case FragmentIndex.FRAGMENT_HEALTH_UI_LAYER:
-                fragmentClass = HealthFragmentChildCPU.class;
+                fragmentClass = HealthFragmentChildPerformance.class;
                 break;
             case FragmentIndex.FRAGMENT_HEALTH_MEMORY:
-                fragmentClass = HealthFragmentChildCPU.class;
+                fragmentClass = HealthFragmentChildPerformance.class;
                 break;
             case FragmentIndex.FRAGMENT_HEALTH_MEMORY_ITEM:
-                fragmentClass = HealthFragmentChildCPUItem.class;
+                fragmentClass = HealthFragmentChildPerformanceItem.class;
                 break;
             case FragmentIndex.FRAGMENT_HEALTH_LOAD_PAGE:
-                fragmentClass = HealthFragmentChildCPU.class;
+                fragmentClass = HealthFragmentChildPerformance.class;
                 break;
             case FragmentIndex.FRAGMENT_HEALTH_LOAD_PAGE_ITEM:
-                fragmentClass = HealthFragmentChildCPUItem.class;
+                fragmentClass = HealthFragmentChildPerformanceItem.class;
                 break;
             case FragmentIndex.FRAGMENT_HEALTH_LARGE_FILE:
                 fragmentClass = HealthFragmentChildLargeFile.class;

@@ -3,10 +3,6 @@ package com.didichuxing.doraemonkit.kit.health.appstart;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,7 +11,8 @@ import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
-import com.zzhoujay.richtext.RichText;
+
+import java.util.List;
 
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.AppStartBean;
 
@@ -57,13 +54,19 @@ public class HealthFragmentChildAppStart extends BaseFragment {
     private void initData() {
         synchronized (this) {
             AppHealthInfo info = AppHealthInfoUtil.getInstance().getAppHealthInfo();
-            if (info == null || info.getData() == null || info.getData().getAppStart() == null) {
+            if (info == null || info.getData() == null) {
                 return;
             }
 
-            AppStartBean appStart = info.getData().getAppStart();
-            mAppStartTimeMs.setText(appStart.getCostTime() + " ms");
-            RichText.from(appStart.getCostDetail()).into(mAppStartStackTrace);
+            if (info.getData().getAppStart() == null) {
+                mAppStartTimeMs.setText("没抓到启动耗时");
+                mAppStartStackTrace.setText("请联系开发者!");
+            } else {
+                List<AppStartBean> appStartBeanList = info.getData().getAppStart();
+                AppStartBean appStart = appStartBeanList.get(appStartBeanList.size()-1);
+                mAppStartTimeMs.setText(appStart.getCostTime() + " ms");
+                mAppStartStackTrace.setText(appStart.getCostDetail());
+            }
         }
     }
 }

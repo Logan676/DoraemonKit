@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.TimeUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
@@ -21,16 +19,13 @@ import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.NotificationUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import okhttp3.Request;
-import okhttp3.Response;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
@@ -136,7 +131,7 @@ public class BlockMonitorManager {
             if (DokitConstant.APP_HEALTH_RUNNING && !Debug.isDebuggerConnected()) {
                 addBlockInfoInAppHealth(blockInfo);
             }
-            showNotification(blockInfo);
+            // showNotification(blockInfo);
             if (mBlockInfoList.size() > MAX_SIZE) {
                 mBlockInfoList.remove(0);
             }
@@ -151,7 +146,7 @@ public class BlockMonitorManager {
     private void showNotification(BlockInfo info) {
         String contentTitle = mContext.getString(R.string.dk_block_class_has_blocked, info.timeStart);
         String contentText = mContext.getString(R.string.dk_block_notification_message);
-        Intent intent = new Intent(mContext, UniversalActivity.class);
+        Intent intent = new Intent(mContext, DoraemonActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_BLOCK_MONITOR);
         intent.putExtra(BlockMonitorFragment.KEY_JUMP_TO_LIST, true);

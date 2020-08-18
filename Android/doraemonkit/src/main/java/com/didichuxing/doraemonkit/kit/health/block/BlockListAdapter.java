@@ -32,7 +32,7 @@ public class BlockListAdapter extends AbsRecyclerAdapter<AbsViewBinder<BlockBean
         return inflater.inflate(R.layout.dk_item_network_traffic, parent, false);
     }
 
-    private static class ItemViewHolder extends AbsViewBinder<BlockBean> {
+    private class ItemViewHolder extends AbsViewBinder<BlockBean> {
         private TextView className;
         private TextView methodBlockMs;
 
@@ -58,12 +58,29 @@ public class BlockListAdapter extends AbsRecyclerAdapter<AbsViewBinder<BlockBean
             className.setText(bean.getPage());
             methodBlockMs.setText("耗时：" + bean.getBlockTime() + " ms");
 
+
+            getView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) mListener.onClick(bean);
+                }
+            });
         }
     }
 
     @Override
     public void setData(Collection<BlockBean> items) {
         super.setData(items);
+    }
+
+    private OnItemClickListener mListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onClick(BlockBean info);
     }
 }
 

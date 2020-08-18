@@ -72,7 +72,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
     public void onActivityResumed(Activity activity) {
         recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_RESUME);
         //记录页面层级
-        if (!activity.getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.ui.UniversalActivity")) {
+        if (!activity.getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.ui.DoraemonActivity")) {
             recordActivityUiLevel(activity);
         }
         //如果是leakCanary页面不进行添加

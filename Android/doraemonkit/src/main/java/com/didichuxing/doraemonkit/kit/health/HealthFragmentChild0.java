@@ -19,7 +19,7 @@ import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.okgo.model.Response;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.dialog.DialogListener;
 import com.didichuxing.doraemonkit.ui.dialog.DialogProvider;
@@ -60,7 +60,7 @@ public class HealthFragmentChild0 extends BaseFragment {
             @Override
             public boolean onPositive() {
                 if (getActivity() != null) {
-                    Intent intent = new Intent(getActivity(), UniversalActivity.class);
+                    Intent intent = new Intent(getActivity(), DoraemonActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_HEALTH_RESULT);
                     getActivity().startActivity(intent);

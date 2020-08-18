@@ -10,7 +10,7 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ImageUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import java.util.Map;
  */
 public class LargePictureManager {
     public static float MEMORY_DEFAULT_THRESHOLD = 1.0f;
-    public static float FILE_DEFAULT_THRESHOLD = 150.0f;
+    public static float FILE_DEFAULT_THRESHOLD = 20.0f;
     private double fileThreshold = PerformanceSpInfoConfig.getLargeImgFileThreshold(DoraemonKit.APPLICATION, FILE_DEFAULT_THRESHOLD);
     private double memoryThreshold = PerformanceSpInfoConfig.getLargeImgMemoryThreshold(DoraemonKit.APPLICATION, MEMORY_DEFAULT_THRESHOLD);
     private static final String TAG = "LargePictureManager";
@@ -59,7 +59,7 @@ public class LargePictureManager {
      * @param size
      */
     public void process(String url, int size) {
-        if (ActivityUtils.getTopActivity() instanceof UniversalActivity) {
+        if (ActivityUtils.getTopActivity() instanceof DoraemonActivity) {
             return;
         }
         if (PerformanceSpInfoConfig.isLargeImgOpen()) {
@@ -77,7 +77,7 @@ public class LargePictureManager {
      * @param fileSize
      */
     private void saveImageInfo(String url, double fileSize) {
-        if (ActivityUtils.getTopActivity() instanceof UniversalActivity) {
+        if (ActivityUtils.getTopActivity() instanceof DoraemonActivity) {
             return;
         }
         LargeImageInfo largeImageInfo;
@@ -101,7 +101,7 @@ public class LargePictureManager {
      * @param height
      */
     private void saveImageInfo(String url, double memorySize, int width, int height, String framework) {
-        if (ActivityUtils.getTopActivity() instanceof UniversalActivity) {
+        if (ActivityUtils.getTopActivity() instanceof DoraemonActivity) {
             return;
         }
         LargeImageInfo largeImageInfo;
@@ -125,7 +125,7 @@ public class LargePictureManager {
 
 
     public Bitmap transform(String imageUrl, Bitmap sourceBitmap, boolean isPicasso, String framework) {
-        if (ActivityUtils.getTopActivity() instanceof UniversalActivity) {
+        if (ActivityUtils.getTopActivity() instanceof DoraemonActivity) {
             return sourceBitmap;
         }
         if (PerformanceSpInfoConfig.isLargeImgOpen()) {

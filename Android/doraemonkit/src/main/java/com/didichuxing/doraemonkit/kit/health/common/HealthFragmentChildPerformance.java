@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.health.cpu;
+package com.didichuxing.doraemonkit.kit.health.common;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,10 +22,19 @@ import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_LOAD_PAGE;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_MEMORY;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_UI_LAYER;
 
-public class HealthFragmentChildCPU extends BaseFragment implements View.OnClickListener {
+/**
+ * 体检结果一级展示页面
+ * <p>
+ * 支持如下类型数据的展示
+ * {@link com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU},
+ * {@link com.didichuxing.doraemonkit.constant.BundleKey.TYPE_UI_LAYER},
+ * {@link com.didichuxing.doraemonkit.constant.BundleKey.TYPE_MEMORY},
+ * {@link com.didichuxing.doraemonkit.constant.BundleKey.TYPE_LOAD_PAGE}
+ */
+public class HealthFragmentChildPerformance extends BaseFragment implements View.OnClickListener {
     private ViewPager mViewPager;
-    private CPUListView mCPUListView;
-    private CPUChartView mCPUChartView;
+    private PerformanceListView mPerformanceListView;
+    private PerformanceChartView mPerformanceChartView;
 
     @Override
     protected int onRequestLayout() {
@@ -59,11 +68,11 @@ public class HealthFragmentChildCPU extends BaseFragment implements View.OnClick
         });
 
         mViewPager = findViewById(R.id.traffic_view_pager);
-        mCPUListView = new CPUListView(getContext(), type);
-        mCPUChartView = new CPUChartView(getContext(), type);
+        mPerformanceListView = new PerformanceListView(getContext(), type);
+        mPerformanceChartView = new PerformanceChartView(getContext(), type, "");
         List<View> views = new ArrayList<>();
-        views.add(mCPUListView);
-        views.add(mCPUChartView);
+        views.add(mPerformanceListView);
+        views.add(mPerformanceChartView);
         mViewPager.setAdapter(new NetWorkMainPagerAdapter(getContext(), views));
 
         final View tabList = findViewById(R.id.tab_list);

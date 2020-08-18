@@ -22,7 +22,6 @@ import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.okgo.utils.HttpUtils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -48,7 +47,7 @@ public class PerformanceDataManager {
     /**
      * 缓存监控数据
      */
-    private static final int NORMAL_SAVE_LOCAL_TIME = 10 * 1000; // 10秒
+    private static final int NORMAL_SAVE_LOCAL_TIME = 10 * 60 * 1000; // 10分钟
 
     /**
      * fps 采集时间
@@ -218,7 +217,7 @@ public class PerformanceDataManager {
                         mLastDownBytes = NetworkManager.get().getTotalResponseSize() - mDownBytes;
                         mNormalHandler.sendEmptyMessageDelayed(MSG_NET_FLOW, NORMAL_SAMPLING_TIME);
                     } else if (msg.what == MSG_SAVE_LOCAL) {
-                        saveToLocal();
+                        cacheHealthData();
                         mNormalHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_SAVE_LOCAL_TIME);
                     }
                 }
@@ -228,8 +227,8 @@ public class PerformanceDataManager {
         mNormalHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_SAVE_LOCAL_TIME);
     }
 
-    private void saveToLocal() {
-        AppHealthInfoUtil.getInstance().saveToLocal(mContext);
+    private void cacheHealthData() {
+        AppHealthInfoUtil.getInstance().cacheHealthData(mContext);
     }
 
     private String getFilePath(Context context) {

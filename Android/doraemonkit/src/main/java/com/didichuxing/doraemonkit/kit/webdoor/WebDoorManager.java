@@ -6,7 +6,7 @@ import android.content.Intent;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.CachesKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 import com.didichuxing.doraemonkit.util.CacheUtils;
 
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ public class WebDoorManager {
 
         @Override
         public void overrideUrlLoading(Context context, String url) {
-            Intent intent = new Intent(context, UniversalActivity.class);
+            Intent intent = new Intent(context, DoraemonActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_WEB_DOOR_DEFAULT);
             intent.putExtra(BundleKey.KEY_URL, url);

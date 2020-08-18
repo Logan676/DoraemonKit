@@ -105,27 +105,27 @@ public class DataPickManager {
     private void realPost(final int from, String content) {
         //LogHelper.i(TAG,"content===>" + content);
         //LogHelper.i(TAG, "====realPost======from==>" + from);
-        DokitOkGo.<String>post(NetworkManager.APP_DATA_PICK_URL)
-                .upJson(content)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        //LogHelper.e(TAG, "success===>" + response.body());
-                        if (from == jsonFromFile) {
-                            FileUtils.delete(filePath);
-                        }
-                        if (from == jsonFromMemory) {
-                            events.clear();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        LogHelper.e(TAG, "error===>" + response.getException().getMessage());
-                        //ToastUtils.showShort("上传埋点失败");
-                    }
-                });
+//        DokitOkGo.<String>post(NetworkManager.APP_DATA_PICK_URL)
+//                .upJson(content)
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onSuccess(Response<String> response) {
+//                        //LogHelper.e(TAG, "success===>" + response.body());
+//                        if (from == jsonFromFile) {
+//                            FileUtils.delete(filePath);
+//                        }
+//                        if (from == jsonFromMemory) {
+//                            events.clear();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(Response<String> response) {
+//                        super.onError(response);
+//                        LogHelper.e(TAG, "error===>" + response.getException().getMessage());
+//                        //ToastUtils.showShort("上传埋点失败");
+//                    }
+//                });
 
     }
 

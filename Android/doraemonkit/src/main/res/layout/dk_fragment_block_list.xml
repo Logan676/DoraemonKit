@@ -36,7 +36,7 @@
             android:layout_gravity="top|left"
             android:gravity="left"
             android:textIsSelectable="true"
-            android:textSize="@dimen/dk_font_size_14"
+            android:textSize="@dimen/dk_font_size_12"
             android:visibility="gone" />
     </FrameLayout>
 </LinearLayout>

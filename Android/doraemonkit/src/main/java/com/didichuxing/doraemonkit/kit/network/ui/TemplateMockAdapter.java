@@ -22,7 +22,7 @@ import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
 import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.view.jsonviewer.JsonRecyclerView;
 
@@ -141,7 +141,7 @@ public class TemplateMockAdapter<T extends MultiItemEntity> extends BaseMultiIte
                         }
                         //保存到全局
                         DokitDbManager.getInstance().setGlobalTemplateApiBean(mockApi);
-                        Intent intent = new Intent(tvView.getContext(), UniversalActivity.class);
+                        Intent intent = new Intent(tvView.getContext(), DoraemonActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_MOCK_TEMPLATE_PREVIEW);
                         tvView.getContext().startActivity(intent);

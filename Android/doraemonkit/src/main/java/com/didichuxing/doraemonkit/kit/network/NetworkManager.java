@@ -7,9 +7,8 @@ import android.os.Looper;
 import com.didichuxing.doraemonkit.BuildConfig;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -87,11 +86,21 @@ public class NetworkManager {
     private AtomicBoolean mIsActive = new AtomicBoolean(true);
 
     /**
-     * 这个数据结构要求有序（方便移除最旧的数据），线程安全（网络请求是在子线程内执行，会在子线程内对数据进行查询插入删除操作），方便查找
+     * 这个数据结构要求
+     * 有序（方便移除最旧的数据），
+     * 线程安全（网络请求是在子线程内执行，会在子线程内对数据进行查询插入删除操作），
+     * 方便查找
      * （需要根据requestId，找到对应的record），目前没找到同时满足三个条件的数据结构，暂时先保证前两者，因为限制了大小为MAX_SIZE，查找
      * 的数据量不会很大，直接foreach
      */
-    private List<NetworkRecord> mRecords = Collections.synchronizedList(new ArrayList<NetworkRecord>());
+    // private List<NetworkRecord> mRecords = Collections.synchronizedList(new ArrayList<NetworkRecord>());
+    // fix
+    // java.util.ConcurrentModificationException
+    // at java.util.ArrayList$Itr.next(ArrayList.java:860)
+    // at com.didichuxing.doraemonkit.kit.network.NetworkManager.getTotalResponseSize(NetworkManager.java:186)
+    // at com.didichuxing.doraemonkit.kit.common.PerformanceDataManager$1.handleMessage(PerformanceDataManager.java:218)
+    private List<NetworkRecord> mRecords = new CopyOnWriteArrayList<>();
+
 
     public static NetworkManager get() {
         return NetworkManager.Holder.INSTANCE;

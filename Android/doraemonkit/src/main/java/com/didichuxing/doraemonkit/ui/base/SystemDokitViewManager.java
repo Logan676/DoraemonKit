@@ -7,7 +7,7 @@ import android.view.WindowManager;
 
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 import com.didichuxing.doraemonkit.ui.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.util.SystemUtil;
@@ -90,7 +90,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void resumeAndAttachDokitViews(Activity activity) {
-        if (activity instanceof UniversalActivity) {
+        if (activity instanceof DoraemonActivity) {
             AbsDokitView countDownDokitView = getDokitView(activity, CountDownDokitView.class.getSimpleName());
             if (countDownDokitView != null) {
                 DokitViewManager.getInstance().detach(CountDownDokitView.class.getSimpleName());
@@ -127,7 +127,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         if (!DokitConstant.APP_HEALTH_RUNNING) {
             return;
         }
-        if (activity instanceof UniversalActivity) {
+        if (activity instanceof DoraemonActivity) {
             return;
         }
         DokitIntent dokitIntent = new DokitIntent(CountDownDokitView.class);
@@ -158,12 +158,12 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         //如果倒计时浮标没显示则重新添加
         AbsDokitView countDownDokitView = getDokitView(activity, CountDownDokitView.class.getSimpleName());
         if (countDownDokitView == null) {
-            if (activity instanceof UniversalActivity) {
+            if (activity instanceof DoraemonActivity) {
                 return;
             }
             attachCountDownDokitView(activity);
         } else {
-            if (activity instanceof UniversalActivity) {
+            if (activity instanceof DoraemonActivity) {
                 DokitViewManager.getInstance().detach(CountDownDokitView.class.getSimpleName());
             } else {
                 //重置倒计时

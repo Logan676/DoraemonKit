@@ -1,27 +1,18 @@
 package com.didichuxing.doraemonkit.kit.health.uilayer;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.BundleKey;
-import com.didichuxing.doraemonkit.constant.FragmentIndex;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
 
 import java.util.Collection;
 
-import static com.didichuxing.doraemonkit.constant.BundleKey.KEY_CLASS_NAME;
-import static com.didichuxing.doraemonkit.constant.BundleKey.KEY_TYPE;
-import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_CPU;
 import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_FRAME;
-import static com.didichuxing.doraemonkit.constant.BundleKey.TYPE_UI_LAYER;
 import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.UiLevelBean;
 
 public class UILayerListAdapter extends AbsRecyclerAdapter<AbsViewBinder<UiLevelBean>, UiLevelBean> {
@@ -45,6 +36,7 @@ public class UILayerListAdapter extends AbsRecyclerAdapter<AbsViewBinder<UiLevel
     private static class ItemViewHolder extends AbsViewBinder<UiLevelBean> {
         private TextView className;
         private TextView frame;
+        private TextView detail;
 
         private int mType;
 
@@ -60,6 +52,9 @@ public class UILayerListAdapter extends AbsRecyclerAdapter<AbsViewBinder<UiLevel
             className = getView(R.id.traffic_url);
             frame = getView(R.id.traffic_amount);
             getView(R.id.request_amount).setVisibility(View.GONE);
+            getView(R.id.traffic_view_detail).setVisibility(View.GONE);
+            detail = getView(R.id.detail_info);
+            detail.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -72,38 +67,9 @@ public class UILayerListAdapter extends AbsRecyclerAdapter<AbsViewBinder<UiLevel
 
             String level = bean.getLevel();
             frame.setText("层级：" + level);
+            detail.setText(bean.getDetail());
 
-            getView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(KEY_CLASS_NAME, bean.getPage());
-                    bundle.putInt(KEY_TYPE, mType);
-                    startUniversalActivity(
-                            getContext(),
-                            bundle,
-                            getFragmentIndex());
-                }
-            });
         }
-
-        public void startUniversalActivity(Context context, Bundle bundle, int fragmentIndex) {
-            Intent intent = new Intent(context, UniversalActivity.class);
-            intent.putExtras(bundle);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(BundleKey.FRAGMENT_INDEX, fragmentIndex);
-            context.startActivity(intent);
-        }
-
-        private int getFragmentIndex() {
-            if (TYPE_FRAME == mType) {
-                return FragmentIndex.FRAGMENT_HEALTH_FRAME_ITEM;
-            } else if (TYPE_CPU == mType || TYPE_UI_LAYER == mType) {
-                return FragmentIndex.FRAGMENT_HEALTH_CPU_ITEM;
-            }
-            return 10000;
-        }
-
     }
 
     @Override

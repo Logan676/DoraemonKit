@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
 
@@ -101,7 +101,7 @@ public class PageLoadListAdapter extends AbsRecyclerAdapter<AbsViewBinder<PageLo
         }
 
         public void startUniversalActivity(Context context, Bundle bundle, int fragmentIndex) {
-            Intent intent = new Intent(context, UniversalActivity.class);
+            Intent intent = new Intent(context, DoraemonActivity.class);
             intent.putExtras(bundle);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(BundleKey.FRAGMENT_INDEX, fragmentIndex);

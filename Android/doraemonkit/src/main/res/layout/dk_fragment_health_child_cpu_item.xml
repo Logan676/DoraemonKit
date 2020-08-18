@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/health_child_item_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -27,10 +28,10 @@
 
     <View style="@style/DK.Divider" />
 
-    <com.didichuxing.doraemonkit.kit.health.cpu.CPUChartItemView
-        android:id="@+id/cpu_chart_item"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+<!--    <com.didichuxing.doraemonkit.kit.health.common.PerformanceChartItemView-->
+<!--        android:id="@+id/cpu_chart_item"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
 
     <!--<android.support.v7.widget.RecyclerView
         android:id="@+id/network_list"

@@ -74,7 +74,7 @@ public class PerformanceSpInfoConfig {
      * @return
      */
     public static boolean isLargeImgOpen() {
-        return SharedPrefsUtil.getBoolean(DoraemonKit.APPLICATION, SharedPrefsKey.LARGE_IMG_OPEN, false);
+        return SharedPrefsUtil.getBoolean(DoraemonKit.APPLICATION, SharedPrefsKey.LARGE_IMG_OPEN, true);
     }
 
     /**

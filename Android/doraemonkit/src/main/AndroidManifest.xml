@@ -33,7 +33,7 @@
     -->
     <application>
         <activity
-            android:name=".ui.UniversalActivity"
+            android:name=".ui.DoraemonActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden|stateUnchanged" />

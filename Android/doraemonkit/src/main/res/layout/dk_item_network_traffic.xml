@@ -82,4 +82,12 @@
             android:text="点击查看详情"
             android:textColor="#ff0099cc" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/detail_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:visibility="gone"
+        android:textSize="12dp"/>
 </LinearLayout>

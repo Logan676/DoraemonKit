@@ -2,6 +2,10 @@ package com.didichuxing.doraemonkit.util;
 
 import android.content.Context;
 
+import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.PathUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -16,24 +20,30 @@ import java.io.Serializable;
  */
 public class CacheUtils {
     private static final String TAG = "CacheUtils";
+    public static final String ROOT_DIR_PATH = PathUtils.getExternalStoragePath() + File.separator + "dokit" + File.separator;
 
     private CacheUtils() {
     }
 
-    public static boolean saveObject(Context context, String key, Serializable ser) {
-        File file = new File(context.getCacheDir() + "/" + key);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public static boolean saveObject(Context context, String key, String content){
+        File file = new File(ROOT_DIR_PATH + key);
+        boolean existsFile = FileUtils.createOrExistsFile(file);
+        if (existsFile){
+            return FileIOUtils.writeFileFromString(file, content);
         }
-        return saveObject(ser, file);
+
+        return false;
+    }
+
+
+    public static boolean saveObject(Context context, String key, Serializable ser) {
+        File file = new File(ROOT_DIR_PATH + key);
+        boolean existsFile = FileUtils.createOrExistsFile(file);
+        return existsFile && saveObject(ser, file);
     }
 
     public static Serializable readObject(Context context, String key) {
-        File file = new File(context.getCacheDir() + "/" + key);
+        File file = new File(ROOT_DIR_PATH + key);
         return readObject(file);
     }
 
@@ -65,6 +75,11 @@ public class CacheUtils {
                 }
             }
         }
+    }
+
+    public static String readObjectString(String key) {
+        File file = new File(ROOT_DIR_PATH + key);
+        return FileIOUtils.readFile2String(file);
     }
 
     public static Serializable readObject(File file) {

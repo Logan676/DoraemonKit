@@ -15,6 +15,8 @@ import com.didichuxing.doraemonkit.util.FileUtil;
 import java.io.File;
 import java.util.Date;
 
+import static com.didichuxing.doraemonkit.util.CacheUtils.ROOT_DIR_PATH;
+
 /**
  * Created by wanglikun on 2019-06-12
  * 系统崩溃异常捕获
@@ -84,7 +86,7 @@ public class CrashCaptureManager implements Thread.UncaughtExceptionHandler {
     }
 
     public File getCrashCacheDir() {
-        File dir = new File(mContext.getCacheDir() + File.separator + CachesKey.CRASH_HISTORY);
+        File dir = new File(ROOT_DIR_PATH + CachesKey.CRASH_HISTORY);
         if (!dir.exists()) {
             dir.mkdir();
         }

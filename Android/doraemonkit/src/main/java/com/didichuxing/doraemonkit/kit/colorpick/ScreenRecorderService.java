@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.kit.colorpick;
 
 import android.app.Activity;
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -18,7 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 
 /**
  * ================================================
@@ -53,7 +52,7 @@ public class ScreenRecorderService extends Service {
 
     private void createNotificationChannel() {
         Notification.Builder builder = new Notification.Builder(this.getApplicationContext()); //获取一个Notification构造器
-        Intent nfIntent = new Intent(this, UniversalActivity.class); //点击后跳转的界面，可以设置跳转数据
+        Intent nfIntent = new Intent(this, DoraemonActivity.class); //点击后跳转的界面，可以设置跳转数据
 
         builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0)) // 设置PendingIntent
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.dk_doraemon)) // 设置下拉列表中的图标(大图标)

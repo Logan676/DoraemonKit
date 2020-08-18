@@ -4,6 +4,8 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url 'http://192.168.6.84:8081/artifactory/gradle-release' }
+        maven { url 'http://192.168.6.84:8081/artifactory/libs-snapshot-local' }
         maven {
             //本地插件地址
             url uri(rootProject.ext.config["localRepoURL"])

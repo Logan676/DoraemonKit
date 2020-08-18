@@ -9,7 +9,7 @@
     <string name="dk_category_platform">平台工具</string>
     <string name="dk_kit_network_mock">数据Mock</string>
     <string name="dk_kit_health">健康体检</string>
-    <string name="dk_kit_health_result">健康体检结果汇总</string>
+    <string name="dk_kit_health_result">性能监控</string>
     <string name="dk_category_weex">WEEX</string>
 
     <string name="dk_kit_ui_performance">UI渲染性能</string>
@@ -82,7 +82,7 @@
     <string name="dk_kit_health_start">启动</string>
     <string name="dk_kit_health_start_title">App启动耗时</string>
     <string name="dk_kit_health_frame_block">帧率/卡顿</string>
-    <string name="dk_kit_health_cpu">CPU</string>
+    <string name="dk_kit_health_cpu">CPU平均使用率</string>
     <string name="dk_kit_health_net">网络</string>
     <string name="dk_kit_health_ui_layer">UI层级</string>
     <string name="dk_kit_health_memory">内存/内存泄露</string>
@@ -117,7 +117,7 @@
     <string name="dk_sysinfo_permission_contact">通讯录权限</string>
 
     <string name="dk_frameinfo_fps">帧率</string>
-    <string name="dk_frameinfo_cpu">CPU</string>
+    <string name="dk_frameinfo_cpu">CPU平均使用率</string>
     <string name="dk_frameinfo_ram">内存</string>
     <string name="dk_frameinfo_custom">自定义</string>
     <string name="dk_frameinfo_upstream">上行流量</string>
@@ -198,11 +198,12 @@
     <string name="dk_ui_layer_detail">UI层级详情</string>
     <string name="dk_ui_layer_list">UI层级列表</string>
     <string name="dk_ui_layer_chart">UI层级图表</string>
+    <string name="dk_memory_list">内存使用</string>
 
     <string name="dk_net_monitor_title_summary">流量监控摘要</string>
     <string name="dk_net_monitor_list">流量监控列表</string>
-    <string name="dk_net_monitor_analyse">流量分析</string>
-    <string name="dk_net_monitor_statistic">网络统计</string>
+    <string name="dk_net_monitor_analyse">请求次数</string>
+    <string name="dk_net_monitor_statistic">流量统计</string>
     <string name="dk_net_monitor_chart">流量图</string>
     <string name="dk_net_monitor_detection_switch">流量检测开关</string>
     <string name="dk_net_monitor_show_summary">显示流量监控详情</string>

@@ -5,8 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.widget.EditText;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
@@ -20,6 +21,7 @@ import static com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBea
 
 public class BlockListView extends LinearLayout {
     private RecyclerView mBlockList;
+    private TextView mTextViewDetailLog;
     private BlockListAdapter mBlockListAdapter;
 
     public BlockListView(Context context) {
@@ -32,14 +34,16 @@ public class BlockListView extends LinearLayout {
 
     public BlockListView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        inflate(context, R.layout.dk_fragment_network_monitor_list, this);
+        inflate(context, R.layout.dk_fragment_block_list, this);
         initView();
         initData();
     }
 
 
     private void initView() {
-        mBlockList = findViewById(R.id.network_list);
+        findViewById(R.id.title_bar).setVisibility(GONE);
+
+        mBlockList = findViewById(R.id.block_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mBlockList.setLayoutManager(layoutManager);
         mBlockListAdapter = new BlockListAdapter(getContext());
@@ -50,8 +54,28 @@ public class BlockListView extends LinearLayout {
         decoration.showHeaderDivider(true);
         mBlockList.addItemDecoration(decoration);
 
-        ((EditText) findViewById(R.id.network_list_filter)).setVisibility(GONE);
+        mTextViewDetailLog = findViewById(R.id.tx_block_detail);
+        mTextViewDetailLog.setVisibility(GONE);
+
+        mBlockListAdapter.setOnItemClickListener(new BlockListAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(BlockBean info) {
+                mTextViewDetailLog.setVisibility(VISIBLE);
+                mBlockList.setVisibility(GONE);
+                mTextViewDetailLog.setText(info.getDetail());
+            }
+        });
     }
+
+    public boolean onBackPressed() {
+        if (mTextViewDetailLog.getVisibility() == View.VISIBLE) {
+            mTextViewDetailLog.setVisibility(View.GONE);
+            mBlockList.setVisibility(View.VISIBLE);
+            return true;
+        }
+        return false;
+    }
+
 
     private void initData() {
         synchronized (this) {

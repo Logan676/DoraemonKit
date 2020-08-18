@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -72,7 +73,9 @@ public class NetworkTrafficListView extends LinearLayout {
             for (NetworkBean bean : network) {
                 List<NetworkValuesBean> values = bean.getValues();
                 for (NetworkValuesBean networkValuesBean : values) {
+                    if (networkValuesBean==null) continue;
                     String url = networkValuesBean.getUrl();
+                    if (TextUtils.isEmpty(url)) continue;
                     List<NetworkValuesBean> list = map.get(url);
                     if (list == null) {
                         list = new ArrayList<>();

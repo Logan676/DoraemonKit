@@ -107,6 +107,19 @@ public class HealthFragmentChildBlock extends BaseFragment implements View.OnCli
     }
 
     @Override
+    protected boolean onBackPressed() {
+        if (mViewPager != null && mViewPager.getCurrentItem() == 0) {
+            if (mBlockListView != null) {
+                boolean handled = mBlockListView.onBackPressed();
+                if (handled) {
+                    return true;
+                }
+            }
+        }
+        return super.onBackPressed();
+    }
+
+    @Override
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.tab_list) {
