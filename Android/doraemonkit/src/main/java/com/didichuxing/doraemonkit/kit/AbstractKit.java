@@ -2,9 +2,10 @@ package com.didichuxing.doraemonkit.kit;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.didichuxing.doraemonkit.constant.BundleKey;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 
 /**
  * ================================================
@@ -24,9 +25,23 @@ public abstract class AbstractKit implements IKit {
      * @param fragmentIndex
      */
     public void startUniversalActivity(Context context, int fragmentIndex) {
-        Intent intent = new Intent(context, UniversalActivity.class);
+        Intent intent = new Intent(context, DoraemonActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(BundleKey.FRAGMENT_INDEX, fragmentIndex);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 启动UniversalActivity
+     *
+     * @param context
+     * @param fragmentIndex
+     */
+    public void startUniversalActivity(Context context, Bundle bundle, int fragmentIndex) {
+        Intent intent = new Intent(context, DoraemonActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(BundleKey.FRAGMENT_INDEX, fragmentIndex);
+        intent.putExtras(bundle);
         context.startActivity(intent);
     }
 

@@ -6,14 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
 
+import com.didichuxing.doraemondemo.dokit.DemoKit;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.didichuxing.doraemondemo.dokit.DemoKit;
 
 /**
  * Created by zhangweida on 2018/6/22.
@@ -28,14 +29,14 @@ public class App extends Application {
         super.onCreate();
         List<AbstractKit> kits = new ArrayList<>();
         kits.add(new DemoKit());
-        //测试环境:a49842eeebeb1989b3f9565eb12c276b
-        //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
         DoraemonKit.disableUpload();
         //是否显示入口icon
         //DoraemonKit.setAwaysShowMainIcon(false);
-        DoraemonKit.install(this, kits, "749a0600b5e48dd77cf8ee680be7b1b7");
-
-        Fresco.initialize(this);
+        DoraemonKit.install(this, kits, "71d3d5ab5765e78c664fc3ac9cf33b34");
+        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
+                .setDiskCacheEnabled(false)
+                .build();
+        Fresco.initialize(this, config);
         DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
             @Override
             public void overrideUrlLoading(Context context, String url) {

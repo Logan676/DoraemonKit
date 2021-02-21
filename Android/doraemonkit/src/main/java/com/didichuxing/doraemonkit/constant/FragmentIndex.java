@@ -53,4 +53,42 @@ public interface FragmentIndex {
      * 健康体检
      */
     int FRAGMENT_HEALTH = 27;
+
+    /**
+     * 健康体检结果
+     */
+    int FRAGMENT_HEALTH_RESULT = 28;
+
+    /**
+     * 健康体检结果
+     */
+    int FRAGMENT_HEALTH_NETWORK_RESULT_LIST = 29;
+
+    int FRAGMENT_HEALTH_NETWORK_RESULT_ITEM = 30;
+
+    int FRAGMENT_HEALTH_APP_START = 31;
+
+    int FRAGMENT_HEALTH_BLOCK = 32;
+
+    int FRAGMENT_HEALTH_BLOCK_ITEM = 33;
+
+    int FRAGMENT_HEALTH_FRAME = 34;
+
+    int FRAGMENT_HEALTH_FRAME_ITEM = 35;
+
+    int FRAGMENT_HEALTH_CPU = 36;
+
+    int FRAGMENT_HEALTH_CPU_ITEM = 37;
+
+    int FRAGMENT_HEALTH_UI_LAYER = 38;
+
+    int FRAGMENT_HEALTH_MEMORY = 39;
+
+    int FRAGMENT_HEALTH_MEMORY_ITEM = 40;
+
+    int FRAGMENT_HEALTH_LOAD_PAGE = 41;
+
+    int FRAGMENT_HEALTH_LOAD_PAGE_ITEM = 42;
+
+    int FRAGMENT_HEALTH_LARGE_FILE = 43;
 }

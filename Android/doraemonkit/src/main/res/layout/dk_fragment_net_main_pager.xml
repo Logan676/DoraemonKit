@@ -32,18 +32,19 @@
         android:orientation="horizontal">
 
         <include
-            android:id="@+id/tab_summary"
+            android:id="@+id/tab_list"
             layout="@layout/dk_view_network_tab_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
 
         <include
-            android:id="@+id/tab_list"
+            android:id="@+id/tab_summary"
             layout="@layout/dk_view_network_tab_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
+
     </LinearLayout>
 
     <View

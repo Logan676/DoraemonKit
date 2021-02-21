@@ -33,10 +33,10 @@
     -->
     <application>
         <activity
-            android:name=".ui.UniversalActivity"
+            android:name=".ui.DoraemonActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+            android:windowSoftInputMode="adjustPan|stateHidden|stateUnchanged" />
         <activity
             android:name=".ui.TranslucentActivity"
             android:theme="@style/DK.Theme.Translucent"

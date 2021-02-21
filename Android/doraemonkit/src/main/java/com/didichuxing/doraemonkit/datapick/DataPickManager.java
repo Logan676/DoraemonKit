@@ -8,7 +8,7 @@ import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -60,8 +60,8 @@ public class DataPickManager {
             }
             //两个埋点之间的时间大于等于60s上传数据
             if (events.size() >= 2) {
-                long lastTime = events.get(events.size() - 1).getTime();
-                long lastSecondTime = events.get(events.size() - 2).getTime();
+                long lastTime = Long.parseLong(events.get(events.size() - 1).getTime());
+                long lastSecondTime = Long.parseLong(events.get(events.size() - 2).getTime());
                 if (lastTime - lastSecondTime >= 60 * 1000) {
                     postData();
                 }
@@ -105,27 +105,27 @@ public class DataPickManager {
     private void realPost(final int from, String content) {
         //LogHelper.i(TAG,"content===>" + content);
         //LogHelper.i(TAG, "====realPost======from==>" + from);
-        OkGo.<String>post(NetworkManager.APP_DATA_PICK_URL)
-                .upJson(content)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        //LogHelper.e(TAG, "success===>" + response.body());
-                        if (from == jsonFromFile) {
-                            FileUtils.delete(filePath);
-                        }
-                        if (from == jsonFromMemory) {
-                            events.clear();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        LogHelper.e(TAG, "error===>" + response.getException().getMessage());
-                        //ToastUtils.showShort("上传埋点失败");
-                    }
-                });
+//        DokitOkGo.<String>post(NetworkManager.APP_DATA_PICK_URL)
+//                .upJson(content)
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onSuccess(Response<String> response) {
+//                        //LogHelper.e(TAG, "success===>" + response.body());
+//                        if (from == jsonFromFile) {
+//                            FileUtils.delete(filePath);
+//                        }
+//                        if (from == jsonFromMemory) {
+//                            events.clear();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(Response<String> response) {
+//                        super.onError(response);
+//                        LogHelper.e(TAG, "error===>" + response.getException().getMessage());
+//                        //ToastUtils.showShort("上传埋点失败");
+//                    }
+//                });
 
     }
 

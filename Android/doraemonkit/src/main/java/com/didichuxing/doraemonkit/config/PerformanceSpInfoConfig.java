@@ -74,7 +74,7 @@ public class PerformanceSpInfoConfig {
      * @return
      */
     public static boolean isLargeImgOpen() {
-        return SharedPrefsUtil.getBoolean(DoraemonKit.APPLICATION, SharedPrefsKey.LARGE_IMG_OPEN, false);
+        return SharedPrefsUtil.getBoolean(DoraemonKit.APPLICATION, SharedPrefsKey.LARGE_IMG_OPEN, true);
     }
 
     /**
@@ -105,7 +105,7 @@ public class PerformanceSpInfoConfig {
      * @param context
      * @param threshold
      */
-    public static float getLargeImgMemoryThreshold(Context context, float threshold) {
+    public static double getLargeImgMemoryThreshold(Context context, float threshold) {
         return SharedPrefsUtil.getFloat(context, SharedPrefsKey.LARGE_IMG_MEMORY_THRESHOLD, threshold);
     }
 
@@ -126,7 +126,7 @@ public class PerformanceSpInfoConfig {
      * @param context
      * @param threshold
      */
-    public static float getLargeImgFileThreshold(Context context, float threshold) {
+    public static double getLargeImgFileThreshold(Context context, float threshold) {
         return SharedPrefsUtil.getFloat(context, SharedPrefsKey.LARGE_IMG_FILE_THRESHOLD, threshold);
     }
 

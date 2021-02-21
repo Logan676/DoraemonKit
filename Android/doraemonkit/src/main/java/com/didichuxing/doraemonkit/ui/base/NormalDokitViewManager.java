@@ -13,7 +13,7 @@ import com.blankj.utilcode.util.BarUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 import com.didichuxing.doraemonkit.ui.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
@@ -125,7 +125,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void onMainActivityCreate(Activity activity) {
-        if (activity instanceof UniversalActivity) {
+        if (activity instanceof DoraemonActivity) {
             return;
         }
         //倒计时DokitView
@@ -155,7 +155,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
         //将所有的dokitView添加到新建的Activity中去
         for (GlobalSingleDokitViewInfo dokitViewInfo : mGlobalSingleDokitViews.values()) {
-            if (activity instanceof UniversalActivity && dokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
+            if (activity instanceof DoraemonActivity && dokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
                 return;
             }
             //是否过滤掉 入口icon
@@ -211,7 +211,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
         //更新所有全局DokitView的位置
         for (GlobalSingleDokitViewInfo globalSingleDokitViewInfo : mGlobalSingleDokitViews.values()) {
-            if (activity instanceof UniversalActivity && globalSingleDokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
+            if (activity instanceof DoraemonActivity && globalSingleDokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
                 return;
             }
             //是否过滤掉 入口icon
@@ -257,15 +257,15 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
      * 添加倒计时DokitView
      */
     private void attachCountDownDokitView(Activity activity) {
-        if (!DokitConstant.APP_HEALTH_RUNNING) {
+        /*if (!DokitConstant.APP_HEALTH_RUNNING) {
             return;
         }
-        if (activity instanceof UniversalActivity) {
+        if (activity instanceof DoraemonActivity) {
             return;
-        }
-        DokitIntent dokitIntent = new DokitIntent(CountDownDokitView.class);
-        dokitIntent.mode = DokitIntent.MODE_ONCE;
-        attach(dokitIntent);
+        }*/
+        // DokitIntent dokitIntent = new DokitIntent(CountDownDokitView.class);
+        // dokitIntent.mode = DokitIntent.MODE_ONCE;
+        // attach(dokitIntent);
     }
 
 

@@ -6,8 +6,6 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import com.blankj.utilcode.util.EncodeUtils;
-import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.didichuxing.doraemonkit.kit.network.bean.MockApiResponseBean;
 import com.didichuxing.doraemonkit.kit.network.ui.InterceptMockAdapter;
 

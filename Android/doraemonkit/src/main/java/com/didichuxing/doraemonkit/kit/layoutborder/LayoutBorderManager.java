@@ -5,15 +5,11 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.FrameLayout;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 import com.didichuxing.doraemonkit.ui.layoutborder.ViewBorderFrameLayout;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
-import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**
  * Created by wanglikun on 2019/1/9
@@ -49,7 +45,7 @@ public class LayoutBorderManager {
     };
 
     private void resolveActivity(Activity activity) {
-        if (activity == null || (activity instanceof UniversalActivity)) {
+        if (activity == null || (activity instanceof DoraemonActivity)) {
             return;
         }
         Window window = activity.getWindow();

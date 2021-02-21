@@ -21,7 +21,7 @@ import com.didichuxing.doraemonkit.kit.Category;
 public class LargePictureKit extends AbstractKit {
     @Override
     public int getCategory() {
-        return Category.PERFORMANCE;
+        return Category.HEALTH;
     }
 
     @Override

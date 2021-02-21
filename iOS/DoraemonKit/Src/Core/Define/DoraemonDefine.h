@@ -19,11 +19,12 @@
 #import "DoraemonUtil.h"
 
 #define DoKitVersion @"3.0.0"
+#define kbChange(x) x * 1000
 
-#define DoKit_OpenLog
+//#define DoKit_OpenLog
 
 #ifdef DoKit_OpenLog
-#define DoKitLog(...) NSLog(@"%s\n %@ \n\n",__func__,[NSString stringWithFormat:__VA_ARGS__]);
+#define DoKitLog(...) NSLog(@"DoKitLog -> %s\n %@ \n\n",__func__,[NSString stringWithFormat:__VA_ARGS__]);
 #else
 #define DoKitLog(...)
 #endif

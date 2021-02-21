@@ -31,6 +31,6 @@ public class GlobalConfig {
      * @param context
      */
     public static boolean getAppHealth(Context context) {
-        return SharedPrefsUtil.getBoolean(context, SharedPrefsKey.APP_HEALTH, false);
+        return SharedPrefsUtil.getBoolean(context, SharedPrefsKey.APP_HEALTH, true);
     }
 }

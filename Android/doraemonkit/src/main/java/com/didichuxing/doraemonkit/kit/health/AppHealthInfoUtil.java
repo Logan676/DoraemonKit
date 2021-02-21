@@ -1,22 +1,26 @@
 package com.didichuxing.doraemonkit.kit.health;
 
+import android.app.Application;
+import android.content.Context;
+import android.util.Log;
+
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.CrashCaptureConfig;
+import com.didichuxing.doraemonkit.constant.CachesKey;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureManager;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
-import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.okgo.OkGo;
-import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
-import com.didichuxing.doraemonkit.okgo.model.Response;
+import com.didichuxing.doraemonkit.util.CacheUtils;
+import com.didichuxing.doraemonkit.util.JsonUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;
@@ -37,6 +41,10 @@ public class AppHealthInfoUtil {
     private static String TAG = "AppHealthInfoUtil";
 
     private AppHealthInfo mAppHealthInfo = new AppHealthInfo();
+
+    public AppHealthInfo getAppHealthInfo() {
+        return mAppHealthInfo;
+    }
 
     /**
      * 静态内部类单例
@@ -82,7 +90,10 @@ public class AppHealthInfoUtil {
         appStartBean.setCostTime(costTime);
         appStartBean.setCostDetail(costDetail);
         appStartBean.setLoadFunc(loadFunc);
-        getData().setAppStart(appStartBean);
+        if (getData().getAppStart() == null) {
+            getData().setAppStart(new ArrayList<AppHealthInfo.DataBean.AppStartBean>());
+        }
+        getData().getAppStart().add(appStartBean);
     }
 
     /**
@@ -285,31 +296,249 @@ public class AppHealthInfoUtil {
     /**
      * 上传健康体检数据到服务器
      */
-    public void post(final UploadAppHealthCallback uploadAppHealthCallBack) {
+    public void post(final Context context, final UploadAppHealthCallback uploadAppHealthCallBack) {
         if (mAppHealthInfo == null) {
             return;
         }
         //线上地址：https://www.dokit.cn/healthCheck/addCheckData
         //测试环境地址:http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData
-        OkGo.<String>post(NetworkManager.APP_HEALTH_URL)
-                .upJson(GsonUtils.toJson(mAppHealthInfo))
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        if (uploadAppHealthCallBack != null) {
-                            uploadAppHealthCallBack.onSuccess(response);
+
+        // cacheHealthData(context);
+
+        String s = GsonUtils.toJson(mAppHealthInfo);
+        Log.d("上传健康体检数据到服务器", s);
+//        DokitOkGo.<String>post(NetworkManager.APP_HEALTH_URL)
+//                .upJson(s)
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onSuccess(Response<String> response) {
+//                        if (uploadAppHealthCallBack != null) {
+//                            uploadAppHealthCallBack.onSuccess(response);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(Response<String> response) {
+//                        super.onError(response);
+//                        if (uploadAppHealthCallBack != null) {
+//                            uploadAppHealthCallBack.onError(response);
+//                        }
+//                    }
+//                });
+
+    }
+
+    public void cacheHealthData(final Context context) {
+        ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Object>() {
+            @Override
+            public Object doInBackground() throws Throwable {
+                LogHelper.d("cacheHealthData", "doInBackground -> 要缓存的数据:\n" + mAppHealthInfo.toString());
+                CacheUtils.saveObject(context, CachesKey.HEALTH_DATA, GsonUtils.toJson(mAppHealthInfo));
+                return null;
+            }
+
+            @Override
+            public void onSuccess(Object result) {
+                LogHelper.d("cacheHealthData", "onSuccess");
+            }
+        });
+    }
+
+    private void readHealthDataFromCache(final Context context) {
+        ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<AppHealthInfo>() {
+            @Override
+            public AppHealthInfo doInBackground() throws Throwable {
+                LogHelper.d("readHealthDataFromCache", "doInBackground -> 新产生的数据: \n" + mAppHealthInfo.toString());
+                String content = CacheUtils.readObjectString(CachesKey.HEALTH_DATA);
+                if (content == null) return null;
+                return JsonUtil.objectFromJson(content, AppHealthInfo.class);
+            }
+
+            @Override
+            public void onSuccess(AppHealthInfo result) {
+                LogHelper.d("readHealthDataFromCache", "onSuccess");
+                if (result != null) {
+                    LogHelper.d("readHealthDataFromCache", "onSuccess -> 缓存的数据: \n" + result.toString());
+                    if (mAppHealthInfo == null) {
+                        mAppHealthInfo = result;
+                        return;
+                    }
+
+                    if (mAppHealthInfo.getBaseInfo() == null) {
+                        mAppHealthInfo.setBaseInfo(result.getBaseInfo());
+                    } else {
+                        if (result.getBaseInfo() != null) {
+                            mAppHealthInfo.setBaseInfo(mAppHealthInfo.getBaseInfo());
                         }
                     }
 
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        if (uploadAppHealthCallBack != null) {
-                            uploadAppHealthCallBack.onError(response);
-                        }
+                    if (mAppHealthInfo.getData() == null) {
+                        mAppHealthInfo.setData(result.getData());
+                    } else {
+                        updateHealthInfoData(result);
                     }
-                });
+                }
+            }
+        });
+    }
 
+    public void updateHealthInfoData(AppHealthInfo cache) {
+        AppHealthInfo.DataBean data = mAppHealthInfo.getData();
+
+        if (cache.getData() != null) {
+            updateNetworkList(cache, data);
+
+            updateBlockList(cache, data);
+
+
+            updateCpuList(cache, data);
+
+            updateFpsList(cache, data);
+
+
+            updateMemoryList(cache, data);
+
+
+            updatePageLoadList(cache, data);
+
+
+            updateUILevelList(cache, data);
+
+
+            updateAppStartList(cache, data);
+
+            updateBigFileList(cache, data);
+
+            updateSubThreadUIBeanList(cache, data);
+
+            updateLeakList(cache, data);
+
+        }
+    }
+
+    public void updateLeakList(AppHealthInfo result, AppHealthInfo.DataBean data) {
+        List<AppHealthInfo.DataBean.LeakBean> leakList = data.getLeak();
+        if (leakList != null) {
+            if (result.getData().getLeak() != null) {
+                leakList.addAll(result.getData().getLeak());
+            }
+        } else {
+            data.setLeak(result.getData().getLeak());
+        }
+    }
+
+    public void updateSubThreadUIBeanList(AppHealthInfo result, AppHealthInfo.DataBean data) {
+        List<AppHealthInfo.DataBean.SubThreadUIBean> subThreadUIList = data.getSubThreadUI();
+        if (subThreadUIList != null) {
+            if (result.getData().getSubThreadUI() != null) {
+                subThreadUIList.addAll(result.getData().getSubThreadUI());
+            }
+        } else {
+            data.setSubThreadUI(result.getData().getSubThreadUI());
+        }
+    }
+
+    public void updateBigFileList(AppHealthInfo cache, AppHealthInfo.DataBean data) {
+        List<AppHealthInfo.DataBean.BigFileBean> bigFileList = data.getBigFile();
+        if (bigFileList != null) {
+            if (cache.getData().getBigFile() != null) {
+                for (AppHealthInfo.DataBean.BigFileBean fileBean : cache.getData().getBigFile()) {
+                    if (!bigFileList.contains(fileBean)) {
+                        bigFileList.add(fileBean);
+                    }
+                }
+            }
+        } else {
+            data.setBigFile(cache.getData().getBigFile());
+        }
+    }
+
+    public void updateAppStartList(AppHealthInfo result, AppHealthInfo.DataBean data) {
+        List<AppHealthInfo.DataBean.AppStartBean> appStartList = data.getAppStart();
+        if (appStartList != null) {
+            if (result.getData().getAppStart() != null) {
+                appStartList.addAll(result.getData().getAppStart());
+            }
+        } else {
+            data.setAppStart(result.getData().getAppStart());
+        }
+    }
+
+    public void updateUILevelList(AppHealthInfo result, AppHealthInfo.DataBean data) {
+        List<AppHealthInfo.DataBean.UiLevelBean> uiLevelList = data.getUiLevel();
+        if (uiLevelList != null) {
+            if (result.getData().getUiLevel() != null) {
+                uiLevelList.addAll(result.getData().getUiLevel());
+            }
+        } else {
+            data.setUiLevel(result.getData().getUiLevel());
+        }
+    }
+
+    public void updatePageLoadList(AppHealthInfo result, AppHealthInfo.DataBean data) {
+        List<AppHealthInfo.DataBean.PageLoadBean> pageLoadList = data.getPageLoad();
+        if (pageLoadList != null) {
+            if (result.getData().getPageLoad() != null) {
+                pageLoadList.addAll(result.getData().getPageLoad());
+            }
+        } else {
+            data.setPageLoad(result.getData().getPageLoad());
+        }
+    }
+
+    public void updateMemoryList(AppHealthInfo result, AppHealthInfo.DataBean data) {
+        List<AppHealthInfo.DataBean.PerformanceBean> memoryList = data.getMemory();
+        if (memoryList != null) {
+            if (result.getData().getMemory() != null) {
+                memoryList.addAll(result.getData().getMemory());
+            }
+        } else {
+            data.setMemory(result.getData().getMemory());
+        }
+    }
+
+    public void updateFpsList(AppHealthInfo result, AppHealthInfo.DataBean data) {
+        List<AppHealthInfo.DataBean.PerformanceBean> fpsList = data.getFps();
+        if (fpsList != null) {
+            if (result.getData().getFps() != null) {
+                fpsList.addAll(result.getData().getFps());
+            }
+        } else {
+            data.setFps(result.getData().getFps());
+        }
+    }
+
+    public void updateCpuList(AppHealthInfo result, AppHealthInfo.DataBean data) {
+        List<AppHealthInfo.DataBean.PerformanceBean> cpuList = data.getCpu();
+        if (cpuList != null) {
+            if (result.getData().getCpu() != null) {
+                cpuList.addAll(result.getData().getCpu());
+            }
+        } else {
+            data.setCpu(result.getData().getCpu());
+        }
+    }
+
+    public void updateBlockList(AppHealthInfo result, AppHealthInfo.DataBean data) {
+        List<AppHealthInfo.DataBean.BlockBean> blockList = data.getBlock();
+        if (blockList != null) {
+            if (result.getData().getBlock() != null) {
+                blockList.addAll(result.getData().getBlock());
+            }
+        } else {
+            data.setBlock(result.getData().getBlock());
+        }
+    }
+
+    public void updateNetworkList(AppHealthInfo result, AppHealthInfo.DataBean data) {
+        List<AppHealthInfo.DataBean.NetworkBean> networkList = data.getNetwork();
+        if (networkList != null) {
+            if (result.getData().getNetwork() != null) {
+                networkList.addAll(result.getData().getNetwork());
+            }
+        } else {
+            data.setNetwork(result.getData().getNetwork());
+        }
     }
 
     /**
@@ -350,8 +579,12 @@ public class AppHealthInfoUtil {
 
     /**
      * 开启健康体检监控
+     *
+     * @param app
      */
-    public void start() {
+    public void start(Application app) {
+        readHealthDataFromCache(app);
+
         PerformanceDataManager.getInstance().init();
         //帧率
         PerformanceDataManager.getInstance().startMonitorFrameInfo();
@@ -385,6 +618,8 @@ public class AppHealthInfoUtil {
         //crash 开关
         CrashCaptureConfig.setCrashCaptureOpen(DoraemonKit.APPLICATION, false);
         CrashCaptureManager.getInstance().stop();
+
+        // TODO: 2020/7/23 持久化 数据
 
     }
 

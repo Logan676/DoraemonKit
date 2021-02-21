@@ -1,13 +1,11 @@
 package com.didichuxing.doraemonkit.kit.health;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,17 +15,16 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GlobalConfig;
+import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.okgo.model.Response;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.dialog.DialogListener;
 import com.didichuxing.doraemonkit.ui.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.ui.dialog.UniversalDialogFragment;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.util.LogHelper;
-import com.didichuxing.doraemonkit.view.verticalviewpager.VerticalViewPager;
-
-import org.w3c.dom.Text;
 
 /**
  * 健康体检fragment
@@ -62,9 +59,16 @@ public class HealthFragmentChild0 extends BaseFragment {
         mUserInfoDialogProvider = new UserInfoDialogProvider(null, new DialogListener() {
             @Override
             public boolean onPositive() {
+                if (getActivity() != null) {
+                    Intent intent = new Intent(getActivity(), DoraemonActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_HEALTH_RESULT);
+                    getActivity().startActivity(intent);
+                }
+
                 if (mUserInfoDialogProvider != null) {
                     //上传健康体检数据
-                    boolean isCheck = mUserInfoDialogProvider.uploadAppHealthInfo(new UploadAppHealthCallback() {
+                    boolean isCheck = mUserInfoDialogProvider.uploadAppHealthInfo(getActivity(), new UploadAppHealthCallback() {
                         @Override
                         public void onSuccess(Response<String> response) {
                             LogHelper.i(TAG, "上传成功===>" + response.body());

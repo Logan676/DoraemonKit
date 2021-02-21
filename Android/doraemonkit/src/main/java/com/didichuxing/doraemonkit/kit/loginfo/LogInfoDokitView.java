@@ -1,10 +1,7 @@
 package com.didichuxing.doraemonkit.kit.loginfo;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -17,13 +14,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.PathUtils;
@@ -32,12 +27,11 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.ui.dialog.UniversalDialogFragment;
-import com.didichuxing.doraemonkit.ui.fileexplorer.FileExplorerChooseDialog;
 import com.didichuxing.doraemonkit.ui.loginfo.LogItemAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
 import com.didichuxing.doraemonkit.util.FileUtil;
@@ -442,7 +436,7 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
     @Override
     public void onResume() {
         super.onResume();
-        if (getActivity() != null && !getActivity().getClass().getSimpleName().equals(UniversalActivity.class.getSimpleName())) {
+        if (getActivity() != null && !getActivity().getClass().getSimpleName().equals(DoraemonActivity.class.getSimpleName())) {
             minimize();
         }
         LogInfoManager.getInstance().registerListener(this);

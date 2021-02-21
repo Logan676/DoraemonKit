@@ -49,9 +49,14 @@ public class NetWorkMainPagerFragment extends BaseFragment implements View.OnCli
         mNetworkListView = new NetworkListView(getContext());
         mNetworkListView.registerNetworkListener();
         List<View> views = new ArrayList<>();
-        views.add(mSummaryView);
         views.add(mNetworkListView);
+        views.add(mSummaryView);
         mViewPager.setAdapter(new NetWorkMainPagerAdapter(getContext(), views));
+
+        final View tabList = findViewById(R.id.tab_list);
+        ((TextView) tabList.findViewById(R.id.tab_text)).setText(R.string.dk_net_monitor_list);
+        ((ImageView) tabList.findViewById(R.id.tab_icon)).setImageResource(R.drawable.dk_net_work_monitor_list_selector);
+        tabList.setOnClickListener(this);
 
         final View tabSummary = findViewById(R.id.tab_summary);
         ((TextView) tabSummary.findViewById(R.id.tab_text)).setText(R.string.dk_net_monitor_title_summary);
@@ -59,20 +64,15 @@ public class NetWorkMainPagerFragment extends BaseFragment implements View.OnCli
         tabSummary.setSelected(true);
         tabSummary.setOnClickListener(this);
 
-        final View tabList = findViewById(R.id.tab_list);
-        ((TextView) tabList.findViewById(R.id.tab_text)).setText(R.string.dk_net_monitor_list);
-        ((ImageView) tabList.findViewById(R.id.tab_icon)).setImageResource(R.drawable.dk_net_work_monitor_list_selector);
-        tabList.setOnClickListener(this);
-
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (position == 0) {
-                    tabSummary.setSelected(true);
-                    tabList.setSelected(false);
-                } else {
                     tabList.setSelected(true);
                     tabSummary.setSelected(false);
+                } else {
+                    tabSummary.setSelected(true);
+                    tabList.setSelected(false);
                 }
             }
 
@@ -91,9 +91,9 @@ public class NetWorkMainPagerFragment extends BaseFragment implements View.OnCli
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.tab_summary) {
+        if (id == R.id.tab_list) {
             mViewPager.setCurrentItem(0, true);
-        } else if (id == R.id.tab_list) {
+        } else if (id == R.id.tab_summary) {
             mViewPager.setCurrentItem(1, true);
         }
     }

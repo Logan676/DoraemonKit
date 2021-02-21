@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/large_file_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        tools:text="文件名：0.0.1595215318774.v3.exo" />
+
+    <TextView
+        android:id="@+id/large_file_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:lines="1"
+        android:maxLines="1"
+        android:textSize="12dp"
+        tools:text="文件大小：4.66MB" />
+
+    <TextView
+        android:id="@+id/large_file_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="11dp"
+        tools:text="文件路径：/sdcard/iReader/cache/files/iu879dkjf.exo" />
+
+</LinearLayout>

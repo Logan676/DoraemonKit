@@ -1,8 +1,9 @@
 include ':app'
 include ':doraemonkit'
-include ':doraemonkit-rpc'
-include ':doraemonkit-no-op'
-include ':doraemonkit-weex'
-include ':doraemonkit-weex-no-op'
+//include ':doraemonkit-rpc'
+// no-op版本提供空实现，DoraemonKit不推荐集成到线上版本使用的，可通过gradle配置动态切换正常版本和no-op版本。
+//include ':doraemonkit-no-op'
+//include ':doraemonkit-weex'
+//include ':doraemonkit-weex-no-op'
 include ':doraemonkit-leakcanary'
 include ':doraemonkit-plugin'

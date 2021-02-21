@@ -35,7 +35,15 @@ import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.kit.gpsmock.ServiceHookManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.HealthKit;
+import com.didichuxing.doraemonkit.kit.health.appstart.HealthAppStartKit;
+import com.didichuxing.doraemonkit.kit.health.cpu.HealthCPUKit;
+import com.didichuxing.doraemonkit.kit.health.frame.HealthFrameKit;
+import com.didichuxing.doraemonkit.kit.health.largefile.HealthLargeFileKit;
+import com.didichuxing.doraemonkit.kit.health.loadpage.HealthLoadPageKit;
+import com.didichuxing.doraemonkit.kit.health.memory.HealthMemoryKit;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
+import com.didichuxing.doraemonkit.kit.health.traffic.HealthNetworkKit;
+import com.didichuxing.doraemonkit.kit.health.uilayer.HealthUILayerKit;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit;
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit;
 import com.didichuxing.doraemonkit.kit.loginfo.LogInfoKit;
@@ -60,7 +68,7 @@ import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.didichuxing.doraemonkit.model.LatLng;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.DoraemonActivity;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
@@ -68,8 +76,6 @@ import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
-import com.sjtu.yifei.AbridgeCallBack;
-import com.sjtu.yifei.IBridge;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -89,7 +95,7 @@ class DoraemonKitReal {
     /**
      * 是否允许上传统计信息
      */
-    private static boolean sEnableUpload = true;
+    private static boolean sEnableUpload = false;
     private static Application APPLICATION;
 
 
@@ -140,11 +146,12 @@ class DoraemonKitReal {
         //赋值
         APPLICATION = app;
         String strDokitMode = SharedPrefsUtil.getString(app, SharedPrefsKey.FLOAT_START_MODE, "normal");
-        if (strDokitMode.equals("normal")) {
-            DokitConstant.IS_NORMAL_FLOAT_MODE = true;
-        } else {
-            DokitConstant.IS_NORMAL_FLOAT_MODE = false;
-        }
+        DokitConstant.IS_NORMAL_FLOAT_MODE = true;
+//        if (strDokitMode.equals("normal")) {
+//            DokitConstant.IS_NORMAL_FLOAT_MODE = true;
+//        } else {
+//             DokitConstant.IS_NORMAL_FLOAT_MODE = false;
+//        }
 
         //解锁系统隐藏api限制权限以及hook Instrumentation
         HandlerHooker.doHook(app);
@@ -169,6 +176,9 @@ class DoraemonKitReal {
         List<AbstractKit> tool = new ArrayList<>();
         //性能监控
         List<AbstractKit> performance = new ArrayList<>();
+        //健康体检
+        List<AbstractKit> health = new ArrayList<>();
+
         //视觉工具
         List<AbstractKit> ui = new ArrayList<>();
         //平台工具
@@ -203,14 +213,25 @@ class DoraemonKitReal {
         performance.add(new TimeCounterKit());
         performance.add(new MethodCostKit());
         performance.add(new UIPerformanceKit());
-        performance.add(new LargePictureKit());
+
+        // 健康体检
+        health.add(new HealthNetworkKit());
+        health.add(new LargePictureKit());
+        health.add(new HealthMemoryKit());
+        health.add(new HealthLoadPageKit());
+        health.add(new HealthLargeFileKit());
+        health.add(new HealthUILayerKit());
+        health.add(new HealthFrameKit());
+        health.add(new HealthCPUKit());
+        health.add(new HealthAppStartKit());
 
         try {
             //动态添加leakcanary
             AbstractKit leakCanaryKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.kit.leakcanary.LeakCanaryKit").newInstance();
             performance.add(leakCanaryKit);
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
+            LogHelper.e(TAG, "e====>" + e.getMessage());
         }
 
 
@@ -263,10 +284,12 @@ class DoraemonKitReal {
             weex.add(devToolKit);
             DokitConstant.KIT_MAPS.put(Category.WEEX, weex);
         } catch (Exception e) {
-            //LogHelper.e(TAG, "e====>" + e.getMessage());
+            e.printStackTrace();
+            LogHelper.e(TAG, "e====>" + e.getMessage());
         }
 
         DokitConstant.KIT_MAPS.put(Category.PERFORMANCE, performance);
+        DokitConstant.KIT_MAPS.put(Category.HEALTH, health);
         DokitConstant.KIT_MAPS.put(Category.PLATFORM, platform);
         DokitConstant.KIT_MAPS.put(Category.TOOLS, tool);
         DokitConstant.KIT_MAPS.put(Category.UI, ui);
@@ -281,18 +304,20 @@ class DoraemonKitReal {
                 DoraemonStatisticsUtil.uploadUserInfo(app);
             } catch (Exception e) {
                 e.printStackTrace();
+                LogHelper.e(TAG, "e====>" + e.getMessage());
             }
         }
         installLeakCanary(app);
         initAndroidUtil(app);
         checkLargeImgIsOpen();
         registerNetworkStatusChangedListener();
-        initAidlBridge(app);
-        startAppHealth();
+        //initAidlBridge(app);
+        startAppHealth(app);
         checkGPSMock();
         //上传埋点
         DataPickManager.getInstance().postData();
     }
+
 
     private static void checkGPSMock() {
         if (GpsMockConfig.isGPSMockOpen(APPLICATION)) {
@@ -372,8 +397,9 @@ class DoraemonKitReal {
 
     /**
      * 开启健康体检
+     * @param app
      */
-    private static void startAppHealth() {
+    private static void startAppHealth(Application app) {
         if (!DokitConstant.APP_HEALTH_RUNNING) {
             return;
         }
@@ -383,38 +409,9 @@ class DoraemonKitReal {
             return;
         }
 
-        AppHealthInfoUtil.getInstance().start();
+        AppHealthInfoUtil.getInstance().start(app);
         //开启大文件检测
         startBigFileInspect();
-    }
-
-
-    /**
-     * 初始化跨进程框架
-     * 接受leakcanary 进程泄漏传递过来的数据
-     */
-    private static void initAidlBridge(Application application) {
-        if (!DokitConstant.APP_HEALTH_RUNNING) {
-            return;
-        }
-        IBridge.init(application, application.getPackageName(), IBridge.AbridgeType.AIDL);
-        IBridge.registerAIDLCallBack(new AbridgeCallBack() {
-            @Override
-            public void receiveMessage(String message) {
-                try {
-                    LogHelper.i(TAG, "====aidl=====>" + message);
-                    if (DokitConstant.APP_HEALTH_RUNNING) {
-                        AppHealthInfo.DataBean.LeakBean leakBean = new AppHealthInfo.DataBean.LeakBean();
-                        leakBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
-                        leakBean.setDetail(message);
-                        AppHealthInfoUtil.getInstance().addLeakInfo(leakBean);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
     }
 
 
@@ -480,6 +477,10 @@ class DoraemonKitReal {
             Method install = leakCanaryManager.getMethod("install", Application.class);
             //调用静态的install方法
             install.invoke(null, app);
+
+            Method initAidlBridge = leakCanaryManager.getMethod("initAidlBridge", Application.class);
+            //调用静态initAidlBridge方法
+            initAidlBridge.invoke(null, app);
         } catch (Exception e) {
         }
 
@@ -521,7 +522,7 @@ class DoraemonKitReal {
      * 显示系统悬浮窗icon
      */
     private static void showSystemMainIcon() {
-        if (ActivityUtils.getTopActivity() instanceof UniversalActivity) {
+        if (ActivityUtils.getTopActivity() instanceof DoraemonActivity) {
             return;
         }
 
